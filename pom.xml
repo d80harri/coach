@@ -4,6 +4,7 @@
 	<groupId>net.d80harri.coach</groupId>
 	<artifactId>coach</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<build>
 		<plugins>
@@ -18,4 +19,9 @@
 			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>console-core</module>
+		<module>domain</module>
+		<module>console-app</module>
+	</modules>
 </project>
