@@ -48,10 +48,8 @@ public class AbstractDaoTest {
 
 	@Test
 	public void testGetAll() {
-		Collection<Entity> ds = Arrays.asList(new DogEntity(UUID.randomUUID()),
-				new ElephantEntity(UUID.randomUUID()),
-				new DogEntity(UUID.randomUUID()),
-				new DogEntity(UUID.randomUUID()));
+		Collection<Entity> ds = Arrays.asList(new DogEntity(UUID.randomUUID()), new ElephantEntity(UUID.randomUUID()),
+				new DogEntity(UUID.randomUUID()), new DogEntity(UUID.randomUUID()));
 		AnimalDao dao = new AnimalDao(ds);
 
 		Assertions.assertThat(dao.getAll(AnimalEntity.class)).hasSize(4);
@@ -62,8 +60,7 @@ public class AbstractDaoTest {
 	@Test
 	public void testGetByIdWhenMoreThanOneMatch() {
 		UUID uuid = UUID.randomUUID();
-		Collection<Entity> ds = Arrays.asList(new DogEntity(uuid),
-				new DogEntity(uuid));
+		Collection<Entity> ds = Arrays.asList(new DogEntity(uuid), new DogEntity(uuid));
 		AnimalDao dao = new AnimalDao(ds);
 
 		Assertions.assertThatThrownBy(() -> dao.getById(uuid, AnimalEntity.class))
@@ -107,4 +104,5 @@ public class AbstractDaoTest {
 			super(ds);
 		}
 	}
+
 }

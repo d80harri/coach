@@ -7,15 +7,14 @@ import net.d80harri.coach.console.ConsoleResult;
 import net.d80harri.coach.console.component.ConsoleTable;
 import net.d80harri.coach.console.exception.UnknownCommandException;
 import net.d80harri.coach.domain.program.Program;
-import net.d80harri.coach.domain.program.ProgramDao;
 import net.d80harri.coach.domain.program.ProgramLogic;
 
 public class ProgramsListConsole extends CommandConsole {
 	private ProgramLogic logic;
 	
-	public ProgramsListConsole(ProgramDao dataSource) {
+	public ProgramsListConsole(ProgramLogic logic) {
 		super("programs> ");
-		this.logic = new ProgramLogic(dataSource);
+		this.logic = logic;
 	}
 
 	@Override

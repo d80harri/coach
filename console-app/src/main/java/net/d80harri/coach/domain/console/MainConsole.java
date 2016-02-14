@@ -3,20 +3,19 @@ package net.d80harri.coach.domain.console;
 import net.d80harri.coach.console.CommandConsole;
 import net.d80harri.coach.console.ConsoleResult;
 import net.d80harri.coach.console.exception.UnknownCommandException;
-import net.d80harri.coach.domain.program.ProgramDao;
 
 public class MainConsole extends CommandConsole {
-	private ProgramDao dataSource;
+	private ProgramsListConsole programListConsole;
 	
-	public MainConsole(ProgramDao dataSource) {
+	public MainConsole(ProgramsListConsole programListConsole) {
 		super("main> ");
-		this.dataSource = dataSource;
+		this.programListConsole = programListConsole;
 	}
 
 	@Override
 	protected ConsoleResult executeCommand(String cmd, String[] args) throws UnknownCommandException {
 		if ("programs".equals(cmd)) {
-			return new ConsoleResult(new ProgramsListConsole(dataSource), null);
+			return new ConsoleResult(programListConsole, null);
 		}
 		throw new UnknownCommandException();
 	}
