@@ -2,8 +2,8 @@ package net.d80harri.coach.domain;
 
 import org.assertj.core.api.Assertions;
 
+import net.d80harri.coach.domain.program.Action;
 import net.d80harri.coach.domain.program.Program;
-import net.d80harri.coach.domain.program.entities.Action;
 
 public class DtoAssertions extends Assertions {
 

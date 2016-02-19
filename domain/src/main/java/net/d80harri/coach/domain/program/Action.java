@@ -1,4 +1,4 @@
-package net.d80harri.coach.domain.program.entities;
+package net.d80harri.coach.domain.program;
 
 import net.d80harri.coach.domain.Dto;
 

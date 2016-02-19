@@ -1,6 +1,6 @@
 package net.d80harri.coach.domain;
 
-import net.d80harri.coach.domain.program.entities.Action;
+import net.d80harri.coach.domain.program.Action;
 
 public class ActionAssert extends AbstractActionAssert<ActionAssert, Action>{
 

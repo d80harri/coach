@@ -2,8 +2,8 @@ package net.d80harri.coach.domain;
 
 import org.assertj.core.api.Assertions;
 
+import net.d80harri.coach.domain.program.Action;
 import net.d80harri.coach.domain.program.SequenceAction;
-import net.d80harri.coach.domain.program.entities.Action;
 
 public abstract class AbstractActionAssert<M extends AbstractActionAssert<M, T>, T extends Action> extends DtoAssert<M, T>{
 

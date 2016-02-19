@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
 
+import net.d80harri.coach.domain.program.Action;
 import net.d80harri.coach.domain.program.Program;
-import net.d80harri.coach.domain.program.entities.Action;
 
 public class ProgramAssert extends DtoAssert<ProgramAssert, Program> {
 

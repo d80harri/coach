@@ -1,7 +1,6 @@
 package net.d80harri.coach.domain.program;
 
 import net.d80harri.coach.domain.Dto;
-import net.d80harri.coach.domain.program.entities.Action;
 
 public class Program extends Dto {
 	private String name;
