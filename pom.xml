@@ -67,5 +67,6 @@
 		<module>console-core</module>
 		<module>domain</module>
 		<module>console-app</module>
+		<module>ui</module>
 	</modules>
 </project>

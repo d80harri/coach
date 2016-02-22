@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
+    <TextField fx:id="txtFirst"/>
+    <TextField fx:id="txtSecond"/>
+    <TextField fx:id="txtSum"/>
+</fx:root>
