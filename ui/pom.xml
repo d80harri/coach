@@ -29,4 +29,12 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.d80harri.coach</groupId>
+			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>domain</artifactId>
+		</dependency>
+	</dependencies>
 </project>

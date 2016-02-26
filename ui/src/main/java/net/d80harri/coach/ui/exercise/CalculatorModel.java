@@ -3,20 +3,16 @@ package net.d80harri.coach.ui.exercise;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.util.converter.NumberStringConverter;
+import javafx.beans.value.ObservableNumberValue;
 
 public class CalculatorModel {
 
 	private IntegerProperty first = new SimpleIntegerProperty();
 	private IntegerProperty second = new SimpleIntegerProperty();
-	private IntegerProperty sum = new SimpleIntegerProperty();
-	
-	public CalculatorModel(ExerciseControl exerciseControl) {
-		Bindings.bindBidirectional(exerciseControl.txtFirst.textProperty(), first, new NumberStringConverter());
-		Bindings.bindBidirectional(exerciseControl.txtSecond.textProperty(), second, new NumberStringConverter());
-		Bindings.bindBidirectional(exerciseControl.txtSum.textProperty(), sum, new NumberStringConverter());
-		
-		sum.bind(first.add(second));
+	private ObservableNumberValue sum;
+
+	public CalculatorModel() {
+		sum = Bindings.add(firstProperty(), secondProperty());
 	}
 
 	public final IntegerProperty firstProperty() {
@@ -43,16 +39,9 @@ public class CalculatorModel {
 		this.secondProperty().set(second);
 	}
 	
-	public final IntegerProperty sumProperty() {
+	public final ObservableNumberValue getSum() {
 		return this.sum;
 	}
 	
-	public final int getSum() {
-		return this.sumProperty().get();
-	}
-	
-	public final void setSum(final int sum) {
-		this.sumProperty().set(sum);
-	}
 	
 }
