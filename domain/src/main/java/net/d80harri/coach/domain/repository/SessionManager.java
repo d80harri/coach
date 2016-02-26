@@ -4,32 +4,46 @@ import java.util.Stack;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class SessionManager {
 	private SessionFactory sessionFactory;
-	private ThreadLocal<Stack<Session>> sessions;
-	
-	public SessionManager(SessionFactory sessionFactory, ThreadLocal<Stack<Session>> sessions) {
+	protected ThreadLocal<Stack<SessionHolder>> sessions = new ThreadLocal<>();
+
+	public SessionManager(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
-		this.sessions = sessions;
 	}
-	
+
 	public SessionHolder getOrCreateSession() {
 		SessionHolder result = null;
-		
-		Stack<Session> stack = sessions.get();
+
+		Stack<SessionHolder> stack = getSessions();
+		if (stack.isEmpty()) {
+			Session session = sessionFactory.openSession();
+			result = new SessionHolder(session, 1);
+			stack.push(result);
+		} else {
+			result = stack.peek();
+			result.attach();
+		}
+		return result;
+	}
+
+	public Transaction createTransaction() {
+		return getCurrentSession().beginTransaction();
+	}
+
+	public SessionHolder getCurrentSession() {
+		return getSessions().peek();
+	}
+
+	private Stack<SessionHolder> getSessions() {
+		Stack<SessionHolder> stack = sessions.get();
 		if (stack == null) {
 			stack = new Stack<>();
 			sessions.set(stack);
 		}
-		if (stack.isEmpty()) {
-			Session session = sessionFactory.openSession();
-			result = new SessionHolder(session, true);
-			stack.push(session);
-		} else {
-			result = new SessionHolder(stack.pop(), false);
-		}
-		return result;
+		return stack;
 	}
 
 }
