@@ -1,9 +1,11 @@
 package net.d80harri.coach.ui.exercise;
 
+import static org.fxmisc.easybind.EasyBind.map;
+
 import java.io.IOException;
 
-import org.fxmisc.easybind.EasyBind;
-
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,13 +19,11 @@ import net.d80harri.coach.ui.conf.ConfigurationModel;
 public class ExerciseListView extends BorderPane {
 	@FXML
 	private ListView<ExerciseListView.Cell> listExercise;
-	
-	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
-	private final ConfigurationModel configModel;
-	
-	public ExerciseListView(ConfigurationModel configModel) {
-		this.configModel = configModel;
-		
+
+	private ObjectProperty<ObservableList<ExerciseModel>> model;
+	private ConfigurationModel configModel;
+
+	public ExerciseListView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
@@ -34,52 +34,63 @@ public class ExerciseListView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-		
-		bindModel();
-	}
-	
-	public void setModel(ObservableList<ExerciseModel> model) {
-		this.model = model;
 		bindModel();
 	}
 
-	public ObservableList<ExerciseModel> getModel() {
-		return model;
+	public void setConfigModel(ConfigurationModel configModel) {
+		this.configModel = configModel;
+		bindModel();
 	}
-	
+
 	private void bindModel() {
-		listExercise.setItems(EasyBind.map(model, i -> new Cell(i, configModel)));
+		listExercise.itemsProperty().bind(map(modelProperty(), i -> map(i, j -> new Cell(j, configModel))));
 	}
-	
+
+	public final ObjectProperty<ObservableList<ExerciseModel>> modelProperty() {
+		if (model == null) {
+			model = new SimpleObjectProperty<>(this, "model", FXCollections.observableArrayList());
+		}
+		return this.model;
+	}
+
+	public final javafx.collections.ObservableList<net.d80harri.coach.ui.exercise.ExerciseModel> getModel() {
+		return this.modelProperty().get();
+	}
+
+	public final void setModel(
+			final javafx.collections.ObservableList<net.d80harri.coach.ui.exercise.ExerciseModel> model) {
+		this.modelProperty().set(model);
+	}
+
 	private static class Cell extends BorderPane {
 		private final ExerciseModel model;
 		private final ConfigurationModel configModel;
-		
+
 		private final Label lblId;
 		private final Label lblName;
 		private final Label lblDescription;
-		
+
 		public Cell(ExerciseModel model, ConfigurationModel configModel) {
 			this.model = model;
 			this.configModel = configModel;
-			
+
 			HBox hbox = new HBox();
 			lblId = new Label();
 			lblName = new Label();
 			lblDescription = new Label();
-			
+
 			hbox.getChildren().add(lblId);
 			hbox.getChildren().add(lblName);
-			
+
 			this.setTop(hbox);
 			this.setCenter(lblDescription);
-			
-			lblId.textProperty().bind(EasyBind.map(model.idProperty(), i -> i.toString()));
+
+			lblId.textProperty().bind(map(model.idProperty(), i -> i.toString()));
 			lblId.visibleProperty().bind(configModel.debugProperty());
 			lblId.managedProperty().bind(configModel.debugProperty());
 			lblName.textProperty().bind(model.nameProperty());
 			lblDescription.textProperty().bind(model.descriptionProperty());
 		}
-		
+
 	}
 }

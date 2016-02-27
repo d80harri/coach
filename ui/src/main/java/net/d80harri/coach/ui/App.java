@@ -10,43 +10,33 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import net.d80harri.coach.domain.exercise.Exercise;
 import net.d80harri.coach.domain.exercise.ExerciseRepository;
 import net.d80harri.coach.domain.repository.ConfigurationBuilder;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
-import net.d80harri.coach.ui.conf.ConfigurationModel;
-import net.d80harri.coach.ui.conf.ConfigurationView;
-import net.d80harri.coach.ui.exercise.ExerciseListView;
 import net.d80harri.coach.ui.exercise.ExerciseModel;
 
 public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Coach!");
+		
 		ExerciseRepository exerciseRepository = createExerciseRepository();
 		exerciseRepository.saveOrUpdate(new Exercise(UUID.randomUUID(), "First Ex", "First Ex desc"));
 		exerciseRepository.saveOrUpdate(new Exercise(UUID.randomUUID(), "Second Ex", "Second Ex desc"));
-		
-		primaryStage.setTitle("Coach!");   
-		
-		ConfigurationModel configModel = new ConfigurationModel();
-		
-        ExerciseListView exerciseListControl = new ExerciseListView(configModel);
-		ConfigurationView configView = new ConfigurationView(configModel);
+
+		ObservableList<ExerciseModel> model = FXCollections.observableArrayList(createUiMapper().mapAsList(exerciseRepository.getAll(), ExerciseModel.class));
+
+        MainModel mainModel = new MainModel();
+        mainModel.setVisibleExercises(model);
         
-        ObservableList<ExerciseModel> model = FXCollections.observableArrayList(createUiMapper().mapAsList(exerciseRepository.getAll(), ExerciseModel.class));
+		MainView mainView = new MainView();
+		mainView.setModel(mainModel);
 		
-        HBox hbox = new HBox();
-        hbox.getChildren().add(exerciseListControl);
-        hbox.getChildren().add(configView);
-        
-        
-		exerciseListControl.setModel(model);
-		
-		primaryStage.setScene(new Scene(hbox, 300, 250));
+		primaryStage.setScene(new Scene(mainView, 1024, 756));
         primaryStage.show();
 	}
 	

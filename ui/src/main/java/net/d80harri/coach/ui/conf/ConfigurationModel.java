@@ -4,8 +4,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class ConfigurationModel {
-	private BooleanProperty debug = new SimpleBooleanProperty(true);
+	private BooleanProperty debug = new SimpleBooleanProperty(false);
 
+	public ConfigurationModel(boolean debug) {
+		setDebug(debug);
+	}
+	
 	public final BooleanProperty debugProperty() {
 		return this.debug;
 	}
