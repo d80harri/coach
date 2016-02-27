@@ -14,14 +14,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import net.d80harri.coach.ui.conf.ConfigurationModel;
 
-public class ExerciseListControl extends BorderPane {
+public class ExerciseListView extends BorderPane {
 	@FXML
-	private ListView<ExerciseListControl.Cell> listExercise;
+	private ListView<ExerciseListView.Cell> listExercise;
 	
 	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
 	private final ConfigurationModel configModel;
 	
-	public ExerciseListControl(ConfigurationModel configModel) {
+	public ExerciseListView(ConfigurationModel configModel) {
 		this.configModel = configModel;
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
