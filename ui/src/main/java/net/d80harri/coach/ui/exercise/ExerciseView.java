@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import net.d80harri.coach.ui.conf.ConfigurationModel;
 
-public class ExerciseControl extends BorderPane {
+public class ExerciseView extends BorderPane {
 	@FXML
 	TextField txtName;
 	@FXML
@@ -20,7 +20,7 @@ public class ExerciseControl extends BorderPane {
 	private final ExerciseModel model = new ExerciseModel();
 	private final ConfigurationModel configModel;
 
-	public ExerciseControl(ConfigurationModel configModel) {
+	public ExerciseView(ConfigurationModel configModel) {
 		this.configModel = configModel;
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise.fxml"));
