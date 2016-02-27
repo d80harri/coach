@@ -16,7 +16,7 @@ public class ExerciseControl extends BorderPane {
 	@FXML
 	TextArea txtDescription;
 
-	private final AtomicExerciseModel model = new AtomicExerciseModel();
+	private final ExerciseModel model = new ExerciseModel();
 
 	public ExerciseControl() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise.fxml"));
@@ -34,10 +34,10 @@ public class ExerciseControl extends BorderPane {
 
 	private void bindModel() {
 		Bindings.bindBidirectional(txtName.textProperty(), model.nameProperty());
-		Bindings.bindBidirectional(txtDescription.textProperty(), model.descriptonProperty());
+		Bindings.bindBidirectional(txtDescription.textProperty(), model.descriptionProperty());
 	}
 
-	public AtomicExerciseModel getModel() {
+	public ExerciseModel getModel() {
 		return model;
 	}
 	

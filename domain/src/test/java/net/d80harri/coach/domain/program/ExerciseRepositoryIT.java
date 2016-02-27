@@ -44,9 +44,9 @@ public class ExerciseRepositoryIT {
 		Exercise exercise = new Exercise(UUID.randomUUID(), "MyName", "MyDescription");
 		target.saveOrUpdate(exercise);
 		
-		Exercise read = target.getByID(exercise.getID());
+		Exercise read = target.getByID(exercise.getId());
 		Assertions.assertThat(read).isNotNull();
-		Assertions.assertThat(read.getID()).isEqualTo(exercise.getID());
+		Assertions.assertThat(read.getId()).isEqualTo(exercise.getId());
 		Assertions.assertThat(read.getName()).isEqualTo(exercise.getName());
 		Assertions.assertThat(read.getDescription()).isEqualTo(exercise.getDescription());
 	}

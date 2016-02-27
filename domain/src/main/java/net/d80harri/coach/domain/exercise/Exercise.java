@@ -22,10 +22,10 @@ public class Exercise {
 		this.description = description;
 	}
 	
-	public UUID getID() {
+	public UUID getId() {
 		return id;
 	}
-	public void setID(UUID id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	public String getName() {

@@ -18,7 +18,7 @@ import net.d80harri.coach.domain.repository.ConfigurationBuilder;
 import net.d80harri.coach.domain.repository.SessionHolder;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
-import net.d80harri.coach.ui.exercise.AtomicExerciseModel;
+import net.d80harri.coach.ui.exercise.ExerciseModel;
 import net.d80harri.coach.ui.exercise.ExerciseListControl;
 
 public class App extends Application {
@@ -32,7 +32,7 @@ public class App extends Application {
 		primaryStage.setTitle("Coach!");                
         ExerciseListControl exerciseListControl = new ExerciseListControl();
 		
-        ObservableList<AtomicExerciseModel> model = FXCollections.observableArrayList(createUiMapper().mapAsList(exerciseRepository.getAll(), AtomicExerciseModel.class));
+        ObservableList<ExerciseModel> model = FXCollections.observableArrayList(createUiMapper().mapAsList(exerciseRepository.getAll(), ExerciseModel.class));
 		
 		exerciseListControl.setModel(model);
 		

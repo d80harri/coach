@@ -36,5 +36,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<artifactId>domain</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.fxmisc.easybind</groupId>
+			<artifactId>easybind</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
 	</dependencies>
 </project>

@@ -2,24 +2,22 @@ package net.d80harri.coach.ui.exercise;
 
 import java.io.IOException;
 
-import javafx.beans.value.ObservableValue;
+import org.fxmisc.easybind.EasyBind;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
+import javafx.scene.layout.HBox;
 
 public class ExerciseListControl extends BorderPane {
 	@FXML
-	private TableView<AtomicExerciseModel> listExercise;
+	private ListView<ExerciseListControl.Cell> listExercise;
 	
-	private ObservableList<AtomicExerciseModel> model = FXCollections.observableArrayList();
+	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
 
 	public ExerciseListControl() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
@@ -32,35 +30,48 @@ public class ExerciseListControl extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-		TableColumn<AtomicExerciseModel, String> tc = new TableColumn<>();
-		tc.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AtomicExerciseModel,String>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<AtomicExerciseModel, String> param) {
-				return param.getValue().nameProperty();
-			}
-		});
-		tc.setCellFactory(new Callback<TableColumn<AtomicExerciseModel,String>, TableCell<AtomicExerciseModel,String>>() {
-
-			@Override
-			public TableCell<AtomicExerciseModel, String> call(TableColumn<AtomicExerciseModel, String> param) {
-				return new TextFieldTableCell<>();
-			}
-		});
-		listExercise.getColumns().add(tc);
+		
 		bindModel();
 	}
 	
-	public void setModel(ObservableList<AtomicExerciseModel> model) {
+	public void setModel(ObservableList<ExerciseModel> model) {
 		this.model = model;
 		bindModel();
 	}
 
-	public ObservableList<AtomicExerciseModel> getModel() {
+	public ObservableList<ExerciseModel> getModel() {
 		return model;
 	}
 	
 	private void bindModel() {
-		listExercise.setItems(model);
+		listExercise.setItems(EasyBind.map(model, i -> new Cell(i)));
+	}
+	
+	private static class Cell extends BorderPane {
+		private ExerciseModel model;
+		
+		private Label lblId;
+		private Label lblName;
+		private Label lblDescription;
+		
+		public Cell(ExerciseModel model) {
+			this.model = model;
+			
+			HBox hbox = new HBox();
+			lblId = new Label();
+			lblName = new Label();
+			lblDescription = new Label();
+			
+			hbox.getChildren().add(lblId);
+			hbox.getChildren().add(lblName);
+			
+			this.setTop(hbox);
+			this.setCenter(lblDescription);
+			
+			lblId.textProperty().bind(EasyBind.map(model.idProperty(), i -> i.toString()));
+			lblName.textProperty().bind(model.nameProperty());
+			lblDescription.textProperty().bind(model.descriptionProperty());
+		}
+		
 	}
 }
