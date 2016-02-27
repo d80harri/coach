@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import net.d80harri.coach.ui.conf.ConfigurationModel;
 
 public class ExerciseControl extends BorderPane {
 	@FXML
@@ -17,8 +18,11 @@ public class ExerciseControl extends BorderPane {
 	TextArea txtDescription;
 
 	private final ExerciseModel model = new ExerciseModel();
+	private final ConfigurationModel configModel;
 
-	public ExerciseControl() {
+	public ExerciseControl(ConfigurationModel configModel) {
+		this.configModel = configModel;
+		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);

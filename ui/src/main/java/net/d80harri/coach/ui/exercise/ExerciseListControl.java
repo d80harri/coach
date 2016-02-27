@@ -12,14 +12,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import net.d80harri.coach.ui.conf.ConfigurationModel;
 
 public class ExerciseListControl extends BorderPane {
 	@FXML
 	private ListView<ExerciseListControl.Cell> listExercise;
 	
 	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
-
-	public ExerciseListControl() {
+	private final ConfigurationModel configModel;
+	
+	public ExerciseListControl(ConfigurationModel configModel) {
+		this.configModel = configModel;
+		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
@@ -44,18 +48,20 @@ public class ExerciseListControl extends BorderPane {
 	}
 	
 	private void bindModel() {
-		listExercise.setItems(EasyBind.map(model, i -> new Cell(i)));
+		listExercise.setItems(EasyBind.map(model, i -> new Cell(i, configModel)));
 	}
 	
 	private static class Cell extends BorderPane {
-		private ExerciseModel model;
+		private final ExerciseModel model;
+		private final ConfigurationModel configModel;
 		
-		private Label lblId;
-		private Label lblName;
-		private Label lblDescription;
+		private final Label lblId;
+		private final Label lblName;
+		private final Label lblDescription;
 		
-		public Cell(ExerciseModel model) {
+		public Cell(ExerciseModel model, ConfigurationModel configModel) {
 			this.model = model;
+			this.configModel = configModel;
 			
 			HBox hbox = new HBox();
 			lblId = new Label();
@@ -69,6 +75,8 @@ public class ExerciseListControl extends BorderPane {
 			this.setCenter(lblDescription);
 			
 			lblId.textProperty().bind(EasyBind.map(model.idProperty(), i -> i.toString()));
+			lblId.visibleProperty().bind(configModel.debugProperty());
+			lblId.managedProperty().bind(configModel.debugProperty());
 			lblName.textProperty().bind(model.nameProperty());
 			lblDescription.textProperty().bind(model.descriptionProperty());
 		}
