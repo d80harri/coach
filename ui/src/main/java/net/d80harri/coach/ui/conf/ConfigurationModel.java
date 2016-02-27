@@ -2,11 +2,18 @@ package net.d80harri.coach.ui.conf;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class ConfigurationModel {
+	private DebugUtils debugUtils = new DebugUtils(this);
 	private BooleanProperty debug = new SimpleBooleanProperty(false);
 
+	public ConfigurationModel() {
+		debugUtils.logChanges("debug", debug);
+	}
+	
 	public ConfigurationModel(boolean debug) {
+		this();
 		setDebug(debug);
 	}
 	

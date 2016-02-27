@@ -34,7 +34,7 @@ public class ExerciseListView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-		bindModel();
+//		bindModel();
 	}
 
 	public void setConfigModel(ConfigurationModel configModel) {

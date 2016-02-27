@@ -18,14 +18,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import net.d80harri.coach.ui.conf.ConfigurationModel;
+import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class ExerciseView extends BorderPane {
-	@FXML
-	Label lblId;
-	@FXML
-	TextField txtName;
-	@FXML
-	TextArea txtDescription;
+	private DebugUtils debugUtils = new DebugUtils(this);
+	
+	@FXML Label lblId;
+	@FXML TextField txtName;
+	@FXML TextArea txtDescription;
 
 	private final ExerciseModel model = new ExerciseModel();
 	private ObjectProperty<ConfigurationModel> configModel;
@@ -42,6 +42,7 @@ public class ExerciseView extends BorderPane {
 		}
 
 		bindModel();
+		debugUtils.logChanges("configModel", configModel);
 	}
 
 	private void bindModel() {

@@ -3,6 +3,7 @@ package net.d80harri.coach.ui;
 import java.io.IOException;
 
 import org.fxmisc.easybind.EasyBind;
+import org.fxmisc.easybind.select.SelectBuilder;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -35,16 +36,17 @@ public class MainView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-		initConfiguration();
-		exerciseListView.modelProperty().bind(EasyBind.select(modelProperty()).selectObject(i -> i.visibleExercisesProperty()));
-	}
-
-	private void initConfiguration() {
-		ConfigurationModel configModel = new ConfigurationModel(false);
-
-		configView.setModel(configModel);
-		exerciseView.setConfigModel(configModel);
-		exerciseListView.setConfigModel(configModel);
+		exerciseListView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.visibleExercisesProperty()));
+		exerciseView.configModelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
+		configView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
+		
+		modelProperty().addListener((obs, o, n)-> System.out.println("MainView#model: " + n));
+		EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()).addListener((obs, o, n) -> System.out.println("MainView#model.config: " + n));
+		configView.modelProperty().addListener((obs, o, n) -> System.out.println("MainView#configView.model: " + n));
+		
+		setModel(new MainModel());
+		ConfigurationModel config = new ConfigurationModel(true);
+		getModel().setConfig(config);
 	}
 
 	public final ObjectProperty<MainModel> modelProperty() {
