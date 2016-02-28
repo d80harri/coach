@@ -14,16 +14,17 @@ import net.d80harri.coach.ui.conf.ConfigurationModel;
 import net.d80harri.coach.ui.conf.ConfigurationView;
 import net.d80harri.coach.ui.exercise.ExerciseListView;
 import net.d80harri.coach.ui.exercise.ExerciseView;
+import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class MainView extends BorderPane {
-	@FXML
-	ConfigurationView configView;
-	@FXML
-	ExerciseView exerciseView;
-	@FXML
-	ExerciseListView exerciseListView;
+	private final DebugUtils debutUtils = new DebugUtils(this);
+	
+	@FXML ConfigurationView configView;
+	@FXML ExerciseView exerciseView;
+	@FXML ExerciseListView exerciseListView;
 
 	ObjectProperty<MainModel> model;
+
 
 	public MainView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
@@ -35,18 +36,16 @@ public class MainView extends BorderPane {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-
-		exerciseListView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.visibleExercisesProperty()));
+		
+		EasyBind.monadic(modelProperty()).subscribe((obs, o, n) -> EasyBind.listBind(exerciseListView.getModel(), n.getVisibleExercises()));
 		exerciseView.configModelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
 		configView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
-		
-		modelProperty().addListener((obs, o, n)-> System.out.println("MainView#model: " + n));
-		EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()).addListener((obs, o, n) -> System.out.println("MainView#model.config: " + n));
-		configView.modelProperty().addListener((obs, o, n) -> System.out.println("MainView#configView.model: " + n));
 		
 		setModel(new MainModel());
 		ConfigurationModel config = new ConfigurationModel(true);
 		getModel().setConfig(config);
+		
+		debutUtils.logChanges("model", modelProperty());
 	}
 
 	public final ObjectProperty<MainModel> modelProperty() {

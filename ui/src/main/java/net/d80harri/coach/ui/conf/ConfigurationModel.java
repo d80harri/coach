@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class ConfigurationModel {
-	private DebugUtils debugUtils = new DebugUtils(this);
-	private BooleanProperty debug = new SimpleBooleanProperty(false);
+	private final DebugUtils debugUtils = new DebugUtils(this);
+	private final BooleanProperty debug = new SimpleBooleanProperty(false);
 
 	public ConfigurationModel() {
 		debugUtils.logChanges("debug", debug);

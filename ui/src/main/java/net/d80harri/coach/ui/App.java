@@ -31,7 +31,7 @@ public class App extends Application {
 		ObservableList<ExerciseModel> model = FXCollections.observableArrayList(createUiMapper().mapAsList(exerciseRepository.getAll(), ExerciseModel.class));
 
 		MainView mainView = new MainView();
-		mainView.getModel().setVisibleExercises(model);
+		mainView.getModel().getVisibleExercises().addAll(model);
 		
 		primaryStage.setScene(new Scene(mainView, 1024, 756));
         primaryStage.show();

@@ -6,29 +6,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import net.d80harri.coach.ui.conf.ConfigurationModel;
 import net.d80harri.coach.ui.exercise.ExerciseModel;
+import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class MainModel {
-	private ObjectProperty<ObservableList<ExerciseModel>> visibleExercises;
-	private ObjectProperty<ConfigurationModel> config = new SimpleObjectProperty<>(this, "config");
+	private final DebugUtils debugUtils = new DebugUtils(this);
+	
+	private final ObservableList<ExerciseModel> visibleExercises = FXCollections.observableArrayList();
+	private final ObjectProperty<ConfigurationModel> config = new SimpleObjectProperty<>(this, "config");
 	
 	public MainModel() {
+		debugUtils.logChanges("config", config);
 	}
 	
-    public final ObjectProperty<ObservableList<ExerciseModel>> visibleExercisesProperty() {
-        if (visibleExercises == null) {
-            visibleExercises = new SimpleObjectProperty<>(this, "items", FXCollections.observableArrayList());
-        }
-        return visibleExercises;
-    }
     
     public ObservableList<ExerciseModel> getVisibleExercises() {
-		return visibleExercisesProperty().get();
+		return visibleExercises;
 	}
     
-    public void setVisibleExercises(ObservableList<ExerciseModel> visibleExercises) {
-		this.visibleExercisesProperty().set(visibleExercises);
-	}
-
 	public final ObjectProperty<ConfigurationModel> configProperty() {
 		return this.config;
 	}

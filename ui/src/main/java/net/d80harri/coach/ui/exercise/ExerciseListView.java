@@ -4,8 +4,8 @@ import static org.fxmisc.easybind.EasyBind.map;
 
 import java.io.IOException;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import org.fxmisc.easybind.EasyBind;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ public class ExerciseListView extends BorderPane {
 	@FXML
 	private ListView<ExerciseListView.Cell> listExercise;
 
-	private ObjectProperty<ObservableList<ExerciseModel>> model;
+	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
 	private ConfigurationModel configModel;
 
 	public ExerciseListView() {
@@ -43,23 +43,13 @@ public class ExerciseListView extends BorderPane {
 	}
 
 	private void bindModel() {
-		listExercise.itemsProperty().bind(map(modelProperty(), i -> map(i, j -> new Cell(j, configModel))));
-	}
-
-	public final ObjectProperty<ObservableList<ExerciseModel>> modelProperty() {
-		if (model == null) {
-			model = new SimpleObjectProperty<>(this, "model", FXCollections.observableArrayList());
-		}
-		return this.model;
+		EasyBind.listBind(listExercise.getItems(), 
+				EasyBind.map(model, i -> new Cell(i, configModel)));
+//		listExercise.itemsProperty().bind(map(modelProperty(), i -> map(i, j -> new Cell(j, configModel))));
 	}
 
 	public final javafx.collections.ObservableList<net.d80harri.coach.ui.exercise.ExerciseModel> getModel() {
-		return this.modelProperty().get();
-	}
-
-	public final void setModel(
-			final javafx.collections.ObservableList<net.d80harri.coach.ui.exercise.ExerciseModel> model) {
-		this.modelProperty().set(model);
+		return this.model;
 	}
 
 	private static class Cell extends BorderPane {

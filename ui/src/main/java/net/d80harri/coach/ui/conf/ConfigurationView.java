@@ -2,6 +2,8 @@ package net.d80harri.coach.ui.conf;
 
 import static org.fxmisc.easybind.EasyBind.*;
 
+import org.fxmisc.easybind.monadic.PropertyBinding;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.CheckBox;
@@ -13,13 +15,14 @@ public class ConfigurationView extends VBox {
 	
 	private CheckBox cbDebug;
 	private ObjectProperty<ConfigurationModel> model = new SimpleObjectProperty<>(this, "model");
+	PropertyBinding<Boolean> debug = monadic(modelProperty()).selectProperty(i -> i.debugProperty());
 
 	public ConfigurationView() {
 		cbDebug = new CheckBox("Debug");
 
 		this.getChildren().add(cbDebug);
 		
-		cbDebug.selectedProperty().bindBidirectional(monadic(modelProperty()).selectProperty(i -> i.debugProperty()));
+		cbDebug.selectedProperty().bindBidirectional(debug);
 		
 		debugUtils.logChanges("model", model);
 		debugUtils.logChanges("cbDebug.selected", cbDebug.selectedProperty());

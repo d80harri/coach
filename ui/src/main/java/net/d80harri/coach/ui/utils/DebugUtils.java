@@ -10,7 +10,7 @@ public class DebugUtils {
 	}
 	
 	public <T> ObservableValue<T> logChanges(String name, ObservableValue<T> value) {
-		value.addListener((obs, o, n)->System.out.println(bean.getClass().getName() + "#" + name +": " + n));
+		value.addListener((obs, o, n)->System.out.println(bean.getClass().getName() + "#" + name +": " + n+ "(" +obs.hashCode()+ ")"));
 		return value;
 	}
 }
