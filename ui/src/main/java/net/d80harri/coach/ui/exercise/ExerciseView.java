@@ -17,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import net.d80harri.coach.ui.conf.ConfigurationModel;
+import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class ExerciseView extends BorderPane {
@@ -28,7 +28,7 @@ public class ExerciseView extends BorderPane {
 	@FXML TextArea txtDescription;
 
 	private final ExerciseModel model = new ExerciseModel();
-	private ObjectProperty<ConfigurationModel> configModel;
+	private ObjectProperty<ConfigurationViewModel> configModel;
 
 	public ExerciseView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise.fxml"));
@@ -46,7 +46,7 @@ public class ExerciseView extends BorderPane {
 	}
 
 	private void bindModel() {
-		SelectBuilder<ConfigurationModel> configSelectionBuilder = select(configModelProperty());
+		SelectBuilder<ConfigurationViewModel> configSelectionBuilder = select(configModelProperty());
 		
 		lblId.textProperty().bind(map(model.idProperty(), (i) -> i == null ? "null" : i.toString()));
 		lblId.visibleProperty().bind(configSelectionBuilder.selectObject(i -> i.debugProperty()));
@@ -63,20 +63,20 @@ public class ExerciseView extends BorderPane {
 		System.out.println("Saving " + model.toString());
 	}
 
-	public final ObjectProperty<ConfigurationModel> configModelProperty() {
+	public final ObjectProperty<ConfigurationViewModel> configModelProperty() {
 		if (configModel == null) {
-			configModel = new SimpleObjectProperty<>(this, "configModel", new ConfigurationModel(false));
+			configModel = new SimpleObjectProperty<>(this, "configModel", new ConfigurationViewModel(false));
 		}
 		return this.configModel;
 	}
 	
 
-	public final net.d80harri.coach.ui.conf.ConfigurationModel getConfigModel() {
+	public final net.d80harri.coach.ui.conf.ConfigurationViewModel getConfigModel() {
 		return this.configModelProperty().get();
 	}
 	
 
-	public final void setConfigModel(final net.d80harri.coach.ui.conf.ConfigurationModel configModel) {
+	public final void setConfigModel(final net.d80harri.coach.ui.conf.ConfigurationViewModel configModel) {
 		this.configModelProperty().set(configModel);
 	}
 	

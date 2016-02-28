@@ -14,14 +14,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import net.d80harri.coach.ui.conf.ConfigurationModel;
+import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 
 public class ExerciseListView extends BorderPane {
 	@FXML
 	private ListView<ExerciseListView.Cell> listExercise;
 
 	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
-	private ConfigurationModel configModel;
+	private ConfigurationViewModel configModel;
 
 	public ExerciseListView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
@@ -37,7 +37,7 @@ public class ExerciseListView extends BorderPane {
 //		bindModel();
 	}
 
-	public void setConfigModel(ConfigurationModel configModel) {
+	public void setConfigModel(ConfigurationViewModel configModel) {
 		this.configModel = configModel;
 		bindModel();
 	}
@@ -54,13 +54,13 @@ public class ExerciseListView extends BorderPane {
 
 	private static class Cell extends BorderPane {
 		private final ExerciseModel model;
-		private final ConfigurationModel configModel;
+		private final ConfigurationViewModel configModel;
 
 		private final Label lblId;
 		private final Label lblName;
 		private final Label lblDescription;
 
-		public Cell(ExerciseModel model, ConfigurationModel configModel) {
+		public Cell(ExerciseModel model, ConfigurationViewModel configModel) {
 			this.model = model;
 			this.configModel = configModel;
 

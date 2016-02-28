@@ -4,15 +4,15 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
-public class ConfigurationModel {
+public class ConfigurationViewModel {
 	private final DebugUtils debugUtils = new DebugUtils(this);
 	private final BooleanProperty debug = new SimpleBooleanProperty(false);
 
-	public ConfigurationModel() {
+	public ConfigurationViewModel() {
 		debugUtils.logChanges("debug", debug);
 	}
 	
-	public ConfigurationModel(boolean debug) {
+	public ConfigurationViewModel(boolean debug) {
 		this();
 		setDebug(debug);
 	}

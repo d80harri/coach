@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import net.d80harri.coach.ui.conf.ConfigurationModel;
+import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 import net.d80harri.coach.ui.conf.ConfigurationView;
 import net.d80harri.coach.ui.exercise.ExerciseListView;
 import net.d80harri.coach.ui.exercise.ExerciseView;
@@ -42,7 +42,7 @@ public class MainView extends BorderPane {
 		configView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
 		
 		setModel(new MainModel());
-		ConfigurationModel config = new ConfigurationModel(true);
+		ConfigurationViewModel config = new ConfigurationViewModel(true);
 		getModel().setConfig(config);
 		
 		debutUtils.logChanges("model", modelProperty());

@@ -13,8 +13,8 @@ import net.d80harri.coach.ui.utils.DebugUtils;
 public class ConfigurationView extends VBox {
 	private DebugUtils debugUtils = new DebugUtils(this);
 	
-	private CheckBox cbDebug;
-	private ObjectProperty<ConfigurationModel> model = new SimpleObjectProperty<>(this, "model");
+	CheckBox cbDebug;
+	private ObjectProperty<ConfigurationViewModel> model = new SimpleObjectProperty<>(this, "model");
 	PropertyBinding<Boolean> debug = monadic(modelProperty()).selectProperty(i -> i.debugProperty());
 
 	public ConfigurationView() {
@@ -28,15 +28,15 @@ public class ConfigurationView extends VBox {
 		debugUtils.logChanges("cbDebug.selected", cbDebug.selectedProperty());
 	}
 
-	public final ObjectProperty<ConfigurationModel> modelProperty() {
+	public final ObjectProperty<ConfigurationViewModel> modelProperty() {
 		return this.model;
 	}
 
-	public final net.d80harri.coach.ui.conf.ConfigurationModel getModel() {
+	public final net.d80harri.coach.ui.conf.ConfigurationViewModel getModel() {
 		return this.modelProperty().get();
 	}
 
-	public final void setModel(final net.d80harri.coach.ui.conf.ConfigurationModel model) {
+	public final void setModel(final net.d80harri.coach.ui.conf.ConfigurationViewModel model) {
 		this.modelProperty().set(model);
 	}
 
