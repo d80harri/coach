@@ -5,7 +5,6 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class JfxRule implements TestRule {
