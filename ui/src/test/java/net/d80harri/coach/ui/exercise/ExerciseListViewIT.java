@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-public class ExerciseListViewTest extends ApplicationTest {
+public class ExerciseListViewIT extends ApplicationTest {
 	private ExerciseListView target;
 	
 	@Override
