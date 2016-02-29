@@ -7,23 +7,20 @@ import java.io.IOException;
 
 import org.fxmisc.easybind.Subscription;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.binding.BooleanExpression;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 
 public class ExerciseListView extends BorderPane {
 	@FXML
 	protected ListView<ExerciseListView.Cell> listExercise;
 
-	private final ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
-	private ConfigurationViewModel configModel;
-	
+	protected final ExerciseListViewModel model;
+
 	private Subscription ssc_exerciseList;
 
 	public ExerciseListView() {
@@ -37,34 +34,26 @@ public class ExerciseListView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-		bindModel();
+		this.model = new ExerciseListViewModel();
+		ssc_exerciseList = listBind(listExercise.getItems(),
+				map(model.getExercises(), i -> new Cell(i, model.debugProperty())));
 	}
 
-	public void setConfigModel(ConfigurationViewModel configModel) {
-		this.configModel = configModel;
-		bindModel();
-	}
-
-	private void bindModel() {
-		ssc_exerciseList = listBind(listExercise.getItems(), 
-				map(model, i -> new Cell(i, configModel)));
-	}
-
-	public final javafx.collections.ObservableList<net.d80harri.coach.ui.exercise.ExerciseModel> getModel() {
-		return this.model;
+	public ExerciseListViewModel getModel() {
+		return model;
 	}
 
 	private static class Cell extends BorderPane {
-		private final ExerciseModel model;
-		private final ConfigurationViewModel configModel;
+		protected final ExerciseModel model;
+		protected final BooleanExpression debug;
 
-		private final Label lblId;
-		private final Label lblName;
-		private final Label lblDescription;
+		protected final Label lblId;
+		protected final Label lblName;
+		protected final Label lblDescription;
 
-		public Cell(ExerciseModel model, ConfigurationViewModel configModel) {
+		public Cell(ExerciseModel model, BooleanExpression debug) {
 			this.model = model;
-			this.configModel = configModel;
+			this.debug = debug;
 
 			HBox hbox = new HBox();
 			lblId = new Label();
@@ -78,8 +67,8 @@ public class ExerciseListView extends BorderPane {
 			this.setCenter(lblDescription);
 
 			lblId.textProperty().bind(map(model.idProperty(), i -> i.toString()));
-//			lblId.visibleProperty().bind(configModel.debugProperty());
-//			lblId.managedProperty().bind(configModel.debugProperty());
+			lblId.visibleProperty().bind(debug);
+			lblId.managedProperty().bind(debug);
 			lblName.textProperty().bind(model.nameProperty());
 			lblDescription.textProperty().bind(model.descriptionProperty());
 		}

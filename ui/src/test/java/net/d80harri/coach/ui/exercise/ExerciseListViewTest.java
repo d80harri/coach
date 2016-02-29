@@ -23,7 +23,7 @@ public class ExerciseListViewTest {
 	
 	@Test
 	public void testAddExercise() {
-		target.getModel().add(new ExerciseModel(UUID.randomUUID(), "name", "desc"));
+		target.getModel().getExercises().add(new ExerciseModel(UUID.randomUUID(), "name", "desc"));
 		
 		Assertions.assertThat(target.listExercise.getItems()).hasSize(1);
 	}

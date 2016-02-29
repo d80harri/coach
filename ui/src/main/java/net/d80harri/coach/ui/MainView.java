@@ -1,17 +1,19 @@
 package net.d80harri.coach.ui;
 
+import static org.fxmisc.easybind.EasyBind.monadic;
+
 import java.io.IOException;
 
 import org.fxmisc.easybind.EasyBind;
-import org.fxmisc.easybind.select.SelectBuilder;
 
+import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 import net.d80harri.coach.ui.conf.ConfigurationView;
+import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 import net.d80harri.coach.ui.exercise.ExerciseListView;
 import net.d80harri.coach.ui.exercise.ExerciseView;
 import net.d80harri.coach.ui.utils.DebugUtils;
@@ -37,7 +39,8 @@ public class MainView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 		
-		EasyBind.monadic(modelProperty()).subscribe((obs, o, n) -> EasyBind.listBind(exerciseListView.getModel(), n.getVisibleExercises()));
+		monadic(modelProperty()).selectProperty(i -> i.configProperty()).selectProperty(i -> i.debugProperty()).bindBidirectional(exerciseListView.getModel().debugProperty());
+		monadic(modelProperty()).subscribe((obs, o, n) -> EasyBind.listBind(exerciseListView.getModel().getExercises(), n.getVisibleExercises()));
 		exerciseView.configModelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
 		configView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
 		
