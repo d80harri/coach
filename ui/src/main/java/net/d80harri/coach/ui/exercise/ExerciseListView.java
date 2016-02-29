@@ -19,7 +19,7 @@ import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 
 public class ExerciseListView extends BorderPane {
 	@FXML
-	private ListView<ExerciseListView.Cell> listExercise;
+	protected ListView<ExerciseListView.Cell> listExercise;
 
 	private final ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
 	private ConfigurationViewModel configModel;
