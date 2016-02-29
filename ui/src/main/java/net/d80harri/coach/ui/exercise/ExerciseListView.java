@@ -1,10 +1,11 @@
 package net.d80harri.coach.ui.exercise;
 
+import static org.fxmisc.easybind.EasyBind.listBind;
 import static org.fxmisc.easybind.EasyBind.map;
 
 import java.io.IOException;
 
-import org.fxmisc.easybind.EasyBind;
+import org.fxmisc.easybind.Subscription;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,8 +21,10 @@ public class ExerciseListView extends BorderPane {
 	@FXML
 	private ListView<ExerciseListView.Cell> listExercise;
 
-	private ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
+	private final ObservableList<ExerciseModel> model = FXCollections.observableArrayList();
 	private ConfigurationViewModel configModel;
+	
+	private Subscription ssc_exerciseList;
 
 	public ExerciseListView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
@@ -34,7 +37,7 @@ public class ExerciseListView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-//		bindModel();
+		bindModel();
 	}
 
 	public void setConfigModel(ConfigurationViewModel configModel) {
@@ -43,9 +46,8 @@ public class ExerciseListView extends BorderPane {
 	}
 
 	private void bindModel() {
-		EasyBind.listBind(listExercise.getItems(), 
-				EasyBind.map(model, i -> new Cell(i, configModel)));
-//		listExercise.itemsProperty().bind(map(modelProperty(), i -> map(i, j -> new Cell(j, configModel))));
+		ssc_exerciseList = listBind(listExercise.getItems(), 
+				map(model, i -> new Cell(i, configModel)));
 	}
 
 	public final javafx.collections.ObservableList<net.d80harri.coach.ui.exercise.ExerciseModel> getModel() {
@@ -76,8 +78,8 @@ public class ExerciseListView extends BorderPane {
 			this.setCenter(lblDescription);
 
 			lblId.textProperty().bind(map(model.idProperty(), i -> i.toString()));
-			lblId.visibleProperty().bind(configModel.debugProperty());
-			lblId.managedProperty().bind(configModel.debugProperty());
+//			lblId.visibleProperty().bind(configModel.debugProperty());
+//			lblId.managedProperty().bind(configModel.debugProperty());
 			lblName.textProperty().bind(model.nameProperty());
 			lblDescription.textProperty().bind(model.descriptionProperty());
 		}

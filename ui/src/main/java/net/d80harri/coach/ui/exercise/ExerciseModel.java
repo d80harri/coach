@@ -11,6 +11,14 @@ public class ExerciseModel {
 	private ObjectProperty<UUID> id = new SimpleObjectProperty<>();
 	private StringProperty name = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
+	
+	public ExerciseModel(){}
+	
+	public ExerciseModel(UUID id, String name, String description) {
+		setId(id);
+		setName(name);
+		setDescription(description);
+	}
 
 	public final StringProperty nameProperty() {
 		return this.name;
