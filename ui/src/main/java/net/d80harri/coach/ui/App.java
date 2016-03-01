@@ -16,6 +16,7 @@ import net.d80harri.coach.domain.exercise.ExerciseRepository;
 import net.d80harri.coach.domain.repository.ConfigurationBuilder;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
+import net.d80harri.coach.ui.exercise.ExerciseListViewModel;
 import net.d80harri.coach.ui.exercise.ExerciseModel;
 
 public class App extends Application {
@@ -31,7 +32,7 @@ public class App extends Application {
 		ObservableList<ExerciseModel> model = FXCollections.observableArrayList(createUiMapper().mapAsList(exerciseRepository.getAll(), ExerciseModel.class));
 
 		MainView mainView = new MainView();
-		mainView.getModel().getVisibleExercises().addAll(model);
+		mainView.getModel().setExerciseList(new ExerciseListViewModel(model, true));
 		
 		primaryStage.setScene(new Scene(mainView, 1024, 756));
         primaryStage.show();

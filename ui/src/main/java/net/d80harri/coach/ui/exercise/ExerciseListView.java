@@ -2,12 +2,17 @@ package net.d80harri.coach.ui.exercise;
 
 import static org.fxmisc.easybind.EasyBind.listBind;
 import static org.fxmisc.easybind.EasyBind.map;
+import static org.fxmisc.easybind.EasyBind.select;
+import static org.fxmisc.easybind.EasyBind.subscribe;
 
 import java.io.IOException;
 
 import org.fxmisc.easybind.Subscription;
 
-import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -19,9 +24,10 @@ public class ExerciseListView extends BorderPane {
 	@FXML
 	protected ListView<ExerciseListView.Cell> listExercise;
 
-	protected final ExerciseListViewModel model;
+	protected final ObjectProperty<ExerciseListViewModel> model = new SimpleObjectProperty<>(this, "model",
+			new ExerciseListViewModel());
 
-	private Subscription ssc_exerciseList;
+	private Subscription modelChanging;
 
 	public ExerciseListView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exercise_list.fxml"));
@@ -34,26 +40,41 @@ public class ExerciseListView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 
-		this.model = new ExerciseListViewModel();
-		ssc_exerciseList = listBind(listExercise.getItems(),
-				map(model.getExercises(), i -> new Cell(i, model.debugProperty())));
+		modelChanging = subscribe(model, this::modelChanging);
 	}
 
-	public ExerciseListViewModel getModel() {
-		return model;
+	public void modelChanging(ExerciseListViewModel t) {
+		listBind(listExercise.getItems(), map(t.getExercises(), i -> toCell(i)));
 	}
 
-	private static class Cell extends BorderPane {
+	private Cell toCell(ExerciseModel exercise) {
+		Cell result = new Cell(exercise);
+		result.debugProperty().bind(select(model).selectObject(i -> i.debugProperty()));
+		return result;
+	}
+
+	public final ObjectProperty<ExerciseListViewModel> modelProperty() {
+		return this.model;
+	}
+
+	public final net.d80harri.coach.ui.exercise.ExerciseListViewModel getModel() {
+		return this.modelProperty().get();
+	}
+
+	public final void setModel(final net.d80harri.coach.ui.exercise.ExerciseListViewModel model) {
+		this.modelProperty().set(model);
+	}
+
+	public static class Cell extends BorderPane {
 		protected final ExerciseModel model;
-		protected final BooleanExpression debug;
+		protected final BooleanProperty debug = new SimpleBooleanProperty(this, "debug");
 
 		protected final Label lblId;
 		protected final Label lblName;
 		protected final Label lblDescription;
 
-		public Cell(ExerciseModel model, BooleanExpression debug) {
+		public Cell(ExerciseModel model) {
 			this.model = model;
-			this.debug = debug;
 
 			HBox hbox = new HBox();
 			lblId = new Label();
@@ -71,6 +92,18 @@ public class ExerciseListView extends BorderPane {
 			lblId.managedProperty().bind(debug);
 			lblName.textProperty().bind(model.nameProperty());
 			lblDescription.textProperty().bind(model.descriptionProperty());
+		}
+
+		public final BooleanProperty debugProperty() {
+			return this.debug;
+		}
+
+		public final boolean isDebug() {
+			return this.debugProperty().get();
+		}
+
+		public final void setDebug(final boolean debug) {
+			this.debugProperty().set(debug);
 		}
 
 	}

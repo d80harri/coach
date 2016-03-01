@@ -1,5 +1,7 @@
 package net.d80harri.coach.ui.testutils;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -8,7 +10,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class JfxRule implements TestRule {
-	private static boolean started = false;
+	private static AtomicBoolean started = new AtomicBoolean(false);
 
 	@Override
 	public Statement apply(final Statement arg0, Description arg1) {
@@ -16,10 +18,9 @@ public class JfxRule implements TestRule {
 
 			@Override
 			public void evaluate() throws Throwable {
-				if (!started) {
+				if (!started.getAndSet(true)) {
 					JavaFXInitializer.initialize();
 				}
-				started = true;
 				arg0.evaluate();
 			}
 		};

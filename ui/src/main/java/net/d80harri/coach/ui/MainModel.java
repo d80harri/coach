@@ -1,26 +1,22 @@
 package net.d80harri.coach.ui;
 
+import static org.fxmisc.easybind.EasyBind.monadic;
+
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.d80harri.coach.ui.conf.ConfigurationViewModel;
-import net.d80harri.coach.ui.exercise.ExerciseModel;
+import net.d80harri.coach.ui.exercise.ExerciseListViewModel;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class MainModel {
 	private final DebugUtils debugUtils = new DebugUtils(this);
 	
-	private final ObservableList<ExerciseModel> visibleExercises = FXCollections.observableArrayList();
+	private final ObjectProperty<ExerciseListViewModel> exerciseList = new SimpleObjectProperty<>(this, "exercises");
 	private final ObjectProperty<ConfigurationViewModel> config = new SimpleObjectProperty<>(this, "config");
 	
 	public MainModel() {
 		debugUtils.logChanges("config", config);
-	}
-	
-    
-    public ObservableList<ExerciseModel> getVisibleExercises() {
-		return visibleExercises;
 	}
     
 	public final ObjectProperty<ConfigurationViewModel> configProperty() {
@@ -37,6 +33,27 @@ public class MainModel {
 		this.configProperty().set(config);
 	}
 	
+	private Property<Boolean> debug;
+	public final Property<Boolean> debugProperty() {
+		if (debug == null) {
+			debug = monadic(config).selectProperty(i -> i.debugProperty());
+		}
+		return debug;
+	}
+
+	public final ObjectProperty<ExerciseListViewModel> exerciseListProperty() {
+		return this.exerciseList;
+	}
+	
+
+	public final net.d80harri.coach.ui.exercise.ExerciseListViewModel getExerciseList() {
+		return this.exerciseListProperty().get();
+	}
+	
+
+	public final void setExerciseList(final net.d80harri.coach.ui.exercise.ExerciseListViewModel exerciseList) {
+		this.exerciseListProperty().set(exerciseList);
+	}
 	
 	
 	

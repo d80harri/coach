@@ -27,4 +27,17 @@ public class ExerciseListViewTest {
 		
 		Assertions.assertThat(target.listExercise.getItems()).hasSize(1);
 	}
+	
+	@Test
+	public void changeDebug() {
+		target.getModel().getExercises().add(new ExerciseModel(UUID.randomUUID(), "name", "desc"));
+		Assertions.assertThat(target.listExercise.getItems()).hasSize(1);
+		Assertions.assertThat(target.listExercise.getItems().get(0).debug.get()).isFalse();
+		Assertions.assertThat(target.listExercise.getItems().get(0).lblId.isVisible()).isFalse();
+		
+		target.getModel().setDebug(true);
+		Assertions.assertThat(target.listExercise.getItems().get(0).debug.get()).isTrue();
+		Assertions.assertThat(target.listExercise.getItems().get(0).lblId.isVisible()).isTrue();
+		
+	}
 }

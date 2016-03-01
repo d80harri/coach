@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 import net.d80harri.coach.ui.testutils.JfxRule;
 
 public class MainViewTest {
@@ -25,6 +26,15 @@ public class MainViewTest {
 		assertThat(target.exerciseListView.getModel().isDebug()).isFalse();
 		
 		target.getModel().getConfig().setDebug(true);
+		assertThat(target.exerciseListView.getModel().isDebug()).isTrue();
+	}
+	
+	@Test
+	public void testChangeConfig() {
+		target.getModel().getConfig().setDebug(false);
+		assertThat(target.exerciseListView.getModel().isDebug()).isFalse();
+		
+		target.getModel().setConfig(new ConfigurationViewModel(true));
 		assertThat(target.exerciseListView.getModel().isDebug()).isTrue();
 	}
 }

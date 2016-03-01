@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import org.fxmisc.easybind.EasyBind;
 
-import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +27,8 @@ public class MainView extends BorderPane {
 
 	ObjectProperty<MainModel> model;
 
+	Property<Boolean> debug;
+	
 
 	public MainView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
@@ -39,8 +41,10 @@ public class MainView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 		
-		monadic(modelProperty()).selectProperty(i -> i.configProperty()).selectProperty(i -> i.debugProperty()).bindBidirectional(exerciseListView.getModel().debugProperty());
-		monadic(modelProperty()).subscribe((obs, o, n) -> EasyBind.listBind(exerciseListView.getModel().getExercises(), n.getVisibleExercises()));
+		debug = monadic(modelProperty()).selectProperty(i -> i.debugProperty());
+		exerciseListView.modelProperty().bindBidirectional(monadic(modelProperty()).selectProperty(i -> i.exerciseListProperty()));
+		debug.bindBidirectional(exerciseListView.getModel().debugProperty());
+		
 		exerciseView.configModelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
 		configView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
 		
