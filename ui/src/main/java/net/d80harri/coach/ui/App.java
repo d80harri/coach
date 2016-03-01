@@ -33,6 +33,7 @@ public class App extends Application {
 
 		MainView mainView = new MainView();
 		mainView.getModel().setExerciseList(new ExerciseListViewModel(model, true));
+		mainView.getModel().getConfig().setDebug(true);
 		
 		primaryStage.setScene(new Scene(mainView, 1024, 756));
         primaryStage.show();

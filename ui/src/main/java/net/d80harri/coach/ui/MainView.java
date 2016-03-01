@@ -1,14 +1,19 @@
 package net.d80harri.coach.ui;
 
 import static org.fxmisc.easybind.EasyBind.monadic;
+import static org.fxmisc.easybind.EasyBind.select;
+import static org.fxmisc.easybind.EasyBind.subscribe;
 
 import java.io.IOException;
 
 import org.fxmisc.easybind.EasyBind;
+import org.fxmisc.easybind.Subscription;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
@@ -28,6 +33,8 @@ public class MainView extends BorderPane {
 	ObjectProperty<MainModel> model;
 
 	Property<Boolean> debug;
+
+	private Subscription ssc_model;
 	
 
 	public MainView() {
@@ -41,23 +48,27 @@ public class MainView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 		
-		debug = monadic(modelProperty()).selectProperty(i -> i.debugProperty());
-		exerciseListView.modelProperty().bindBidirectional(monadic(modelProperty()).selectProperty(i -> i.exerciseListProperty()));
-		debug.bindBidirectional(exerciseListView.getModel().debugProperty());
-		
-		exerciseView.configModelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
-		configView.modelProperty().bindBidirectional(EasyBind.monadic(modelProperty()).selectProperty(i -> i.configProperty()));
-		
-		setModel(new MainModel());
-		ConfigurationViewModel config = new ConfigurationViewModel(true);
-		getModel().setConfig(config);
+		ssc_model = monadic(modelProperty()).subscribe(new ChangeListener<MainModel>() {
+
+			@Override
+			public void changed(ObservableValue<? extends MainModel> observable, MainModel oldValue,
+					MainModel newValue) {
+				onModelChanged(newValue);
+			}
+		});
 		
 		debutUtils.logChanges("model", modelProperty());
+	}
+	
+	private void onModelChanged(MainModel model) {
+		configView.modelProperty().bindBidirectional(model.configProperty());
+		exerciseView.modelProperty().bindBidirectional(model.selectedExerciseProperty());
+		exerciseListView.modelProperty().bindBidirectional(model.exerciseListProperty());
 	}
 
 	public final ObjectProperty<MainModel> modelProperty() {
 		if (model == null) {
-			model = new SimpleObjectProperty<>(this, "model");
+			model = new SimpleObjectProperty<>(this, "model", new MainModel());
 		}
 		return this.model;
 	}
