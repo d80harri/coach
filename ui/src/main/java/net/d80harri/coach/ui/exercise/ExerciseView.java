@@ -1,15 +1,11 @@
 package net.d80harri.coach.ui.exercise;
 
-import static org.fxmisc.easybind.EasyBind.map;
 import static org.fxmisc.easybind.EasyBind.monadic;
 import static org.fxmisc.easybind.EasyBind.select;
-import static org.fxmisc.easybind.EasyBind.subscribe;
 
 import java.io.IOException;
+import java.util.OptionalDouble;
 
-import org.fxmisc.easybind.select.SelectBuilder;
-
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -21,13 +17,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import net.d80harri.coach.ui.MainModel;
-import net.d80harri.coach.ui.conf.ConfigurationViewModel;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
-public class ExerciseView extends BorderPane {
-	private DebugUtils debugUtils = new DebugUtils(this);
-	
+public class ExerciseView extends BorderPane { // TODO: rename this to ExerciseEditorView or something like that
 	@FXML Label lblId;
 	@FXML TextField txtName;
 	@FXML TextArea txtDescription;
@@ -58,6 +50,11 @@ public class ExerciseView extends BorderPane {
 	
 	public ObjectProperty<ExerciseViewModel> modelProperty() {
 		return model;
+	}
+	
+
+	public ExerciseViewModel getModel() {
+		return modelProperty().get();
 	}
 	
 	private void onModelChanged(ExerciseViewModel model) {

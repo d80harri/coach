@@ -48,22 +48,11 @@ public class MainView extends BorderPane {
 			throw new RuntimeException(exception);
 		}
 		
-		ssc_model = monadic(modelProperty()).subscribe(new ChangeListener<MainModel>() {
-
-			@Override
-			public void changed(ObservableValue<? extends MainModel> observable, MainModel oldValue,
-					MainModel newValue) {
-				onModelChanged(newValue);
-			}
-		});
-		
+		configView.modelProperty().bindBidirectional(monadic(modelProperty()).selectProperty(i->i.configProperty()));
+		exerciseView.modelProperty().bindBidirectional(monadic(modelProperty()).selectProperty(i->i.selectedExerciseProperty()));
+		exerciseListView.modelProperty().bindBidirectional(monadic(modelProperty()).selectProperty(i->i.exerciseListProperty()));
+				
 		debutUtils.logChanges("model", modelProperty());
-	}
-	
-	private void onModelChanged(MainModel model) {
-		configView.modelProperty().bindBidirectional(model.configProperty());
-		exerciseView.modelProperty().bindBidirectional(model.selectedExerciseProperty());
-		exerciseListView.modelProperty().bindBidirectional(model.exerciseListProperty());
 	}
 
 	public final ObjectProperty<MainModel> modelProperty() {

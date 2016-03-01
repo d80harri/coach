@@ -21,6 +21,26 @@ public class MainViewTest {
 	}
 	
 	@Test
+	public void testNewlyCreatedMainView() {
+		assertThat(target.configView.getModel()).isSameAs(target.getModel().getConfig());
+		assertThat(target.exerciseListView.getModel()).isSameAs(target.getModel().getExerciseList());
+		assertThat(target.exerciseView.getModel()).isSameAs(target.getModel().getSelectedExercise());
+	}
+	
+	@Test
+	public void testSetModelToNull() {
+		assertThat(target.configView.getModel()).isNotNull();
+		assertThat(target.exerciseListView.getModel()).isNotNull();
+		assertThat(target.exerciseView.getModel()).isNotNull();
+		
+		target.setModel(null);
+		
+		assertThat(target.configView.getModel()).isNull();
+		assertThat(target.exerciseListView.getModel()).isNull();
+		assertThat(target.exerciseView.getModel()).isNull();
+	}
+	
+	@Test
 	public void testChangeDebug() {
 		target.getModel().getConfig().setDebug(false);
 		assertThat(target.exerciseListView.getModel().isDebug()).isFalse();

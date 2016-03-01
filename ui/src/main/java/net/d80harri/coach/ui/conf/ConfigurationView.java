@@ -14,7 +14,7 @@ public class ConfigurationView extends VBox {
 	private DebugUtils debugUtils = new DebugUtils(this);
 	
 	CheckBox cbDebug;
-	private ObjectProperty<ConfigurationViewModel> model = new SimpleObjectProperty<>(this, "model");
+	private ObjectProperty<ConfigurationViewModel> model = new SimpleObjectProperty<>(this, "model", new ConfigurationViewModel());
 	PropertyBinding<Boolean> debug = monadic(modelProperty()).selectProperty(i -> i.debugProperty());
 
 	public ConfigurationView() {

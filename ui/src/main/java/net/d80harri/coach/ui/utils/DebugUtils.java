@@ -13,4 +13,9 @@ public class DebugUtils {
 		value.addListener((obs, o, n)->System.out.println(bean.getClass().getName() + "#" + name +": " + n+ "(" +obs.hashCode()+ ")"));
 		return value;
 	}
+	
+	public static <T extends ObservableValue<U>, U> T log(Object bean, String name, T value) {
+		value.addListener((obs, o, n)->System.out.println(bean.getClass().getName() + "#" + name +": " + n+ "(" +obs.hashCode()+ ")"));
+		return value;
+	}
 }
