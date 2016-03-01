@@ -45,15 +45,6 @@ public class MainModel {
 		this.configProperty().set(config);
 	}
 
-	private Property<Boolean> debug;
-
-	public final Property<Boolean> debugProperty() {
-		if (debug == null) {
-			debug = monadic(config).selectProperty(i -> i.debugProperty());
-		}
-		return debug;
-	}
-
 	public final ObjectProperty<ExerciseListViewModel> exerciseListProperty() {
 		return this.exerciseList;
 	}

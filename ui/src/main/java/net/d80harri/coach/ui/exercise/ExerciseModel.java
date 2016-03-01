@@ -11,9 +11,10 @@ public class ExerciseModel {
 	private ObjectProperty<UUID> id = new SimpleObjectProperty<>();
 	private StringProperty name = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
-	
-	public ExerciseModel(){}
-	
+
+	public ExerciseModel() {
+	}
+
 	public ExerciseModel(UUID id, String name, String description) {
 		setId(id);
 		setName(name);
@@ -52,15 +53,13 @@ public class ExerciseModel {
 	public final ObjectProperty<UUID> idProperty() {
 		return this.id;
 	}
-	
 
 	public final java.util.UUID getId() {
 		return this.idProperty().get();
 	}
-	
 
 	public final void setId(final java.util.UUID id) {
 		this.idProperty().set(id);
 	}
-	
+
 }
