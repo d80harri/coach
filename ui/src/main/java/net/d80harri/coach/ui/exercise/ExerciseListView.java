@@ -9,6 +9,7 @@ import static org.fxmisc.easybind.EasyBind.subscribe;
 import java.io.IOException;
 
 import org.fxmisc.easybind.Subscription;
+import org.fxmisc.easybind.monadic.PropertyBinding;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -39,8 +40,8 @@ public class ExerciseListView extends BorderPane {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-		
 		listBind(listExercise.getItems(), map(model.getExercises(), i -> toCell(i)));
+		model.selectedExerciseProperty().bind(monadic(listExercise.getSelectionModel().selectedItemProperty()).map(i -> i.model));
 	}
 
 	private Cell toCell(ExerciseModel exercise) {

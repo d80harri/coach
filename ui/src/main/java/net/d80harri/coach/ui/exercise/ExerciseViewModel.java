@@ -1,8 +1,6 @@
 package net.d80harri.coach.ui.exercise;
 
-import static org.fxmisc.easybind.EasyBind.map;
 import static org.fxmisc.easybind.EasyBind.monadic;
-import static org.fxmisc.easybind.EasyBind.select;
 
 import java.util.UUID;
 
@@ -15,20 +13,28 @@ import javafx.beans.value.ObservableValue;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class ExerciseViewModel {
-	private ObjectProperty<ExerciseModel> exercise = new SimpleObjectProperty<>(this, "exercise");
+	private final ObjectProperty<ExerciseModel> exercise = new SimpleObjectProperty<>(this, "exercise");
 	
-	private BooleanProperty idVisible = DebugUtils.log(this, "idVisible", new SimpleBooleanProperty());
+	private final Property<String> name = monadic(exercise).selectProperty(i -> i.nameProperty());
+	private final ObservableValue<String> id = monadic(exercise).selectProperty(i -> i.idProperty()).map(this::uuidToString);
+	private final Property<String> description = monadic(exercise).selectProperty(i -> i.descriptionProperty());
+	
+	private final BooleanProperty idVisible = DebugUtils.log(this, "idVisible", new SimpleBooleanProperty());
+	
+	public ObjectProperty<ExerciseModel> exerciseProperty() {
+		return exercise;
+	}
 	
 	public ObservableValue<String> idProperty() {
-		return map(select(exercise).selectObject(i -> i.idProperty()), this::uuidToString);
+		return id;
 	}
 
 	public Property<String> nameProperty() {
-		return monadic(exercise).selectProperty(i -> i.nameProperty());
+		return name;
 	}
 
 	public Property<String> descriptionProperty() {
-		return monadic(exercise).selectProperty(i -> i.descriptionProperty());
+		return description;
 	}
 
 	public BooleanProperty idVisibleProperty() {
