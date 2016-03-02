@@ -2,6 +2,7 @@ package net.d80harri.coach.ui.exercise;
 
 import static org.fxmisc.easybind.EasyBind.listBind;
 import static org.fxmisc.easybind.EasyBind.map;
+import static org.fxmisc.easybind.EasyBind.monadic;
 import static org.fxmisc.easybind.EasyBind.select;
 import static org.fxmisc.easybind.EasyBind.subscribe;
 
@@ -24,8 +25,7 @@ public class ExerciseListView extends BorderPane {
 	@FXML
 	protected ListView<ExerciseListView.Cell> listExercise;
 
-	protected final ObjectProperty<ExerciseListViewModel> model = new SimpleObjectProperty<>(this, "model",
-			new ExerciseListViewModel());
+	protected final ExerciseListViewModel model = new ExerciseListViewModel();
 
 	private Subscription modelChanging;
 
@@ -39,30 +39,18 @@ public class ExerciseListView extends BorderPane {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-
-		modelChanging = subscribe(model, this::modelChanging);
-	}
-
-	public void modelChanging(ExerciseListViewModel t) {
-		listBind(listExercise.getItems(), map(t.getExercises(), i -> toCell(i)));
+		
+		listBind(listExercise.getItems(), map(model.getExercises(), i -> toCell(i)));
 	}
 
 	private Cell toCell(ExerciseModel exercise) {
 		Cell result = new Cell(exercise);
-		result.debugProperty().bind(select(model).selectObject(i -> i.debugProperty()));
+		result.debugProperty().bind(model.debugProperty());
 		return result;
 	}
 
-	public final ObjectProperty<ExerciseListViewModel> modelProperty() {
-		return this.model;
-	}
-
 	public final net.d80harri.coach.ui.exercise.ExerciseListViewModel getModel() {
-		return this.modelProperty().get();
-	}
-
-	public final void setModel(final net.d80harri.coach.ui.exercise.ExerciseListViewModel model) {
-		this.modelProperty().set(model);
+		return model;
 	}
 
 	public static class Cell extends BorderPane {

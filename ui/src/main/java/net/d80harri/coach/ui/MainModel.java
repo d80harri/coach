@@ -12,49 +12,30 @@ import net.d80harri.coach.ui.exercise.ExerciseViewModel;
 import net.d80harri.coach.ui.utils.DebugUtils;
 
 public class MainModel {
-	private final DebugUtils debugUtils = new DebugUtils(this);
 
-	private final ObjectProperty<ExerciseListViewModel> exerciseList = new SimpleObjectProperty<>(this, "exercises", new ExerciseListViewModel());
-	private final ObjectProperty<ExerciseViewModel> selectedExercise = new SimpleObjectProperty<>(this, "selectedExercise", new ExerciseViewModel());
-	private final ObjectProperty<ConfigurationViewModel> config = new SimpleObjectProperty<>(this, "config", new ConfigurationViewModel());
+	private final ExerciseListViewModel exerciseList;
+	private final ExerciseViewModel selectedExercise;
+	private final ConfigurationViewModel config;
 
-	public MainModel() {
-		debugUtils.logChanges("config", config);
+	public MainModel(ExerciseListViewModel exerciseList, ExerciseViewModel seletedExercise, ConfigurationViewModel config) {
+		this.exerciseList = exerciseList;
+		this.selectedExercise = seletedExercise;
+		this.config = config;
 		
-		
-		monadic(selectedExercise).selectProperty(i -> i.idVisibleProperty()).bind(select(config).selectObject(i -> i.debugProperty()));
-	}
-
-	public ObjectProperty<ExerciseViewModel> selectedExerciseProperty() {
-		return selectedExercise;
+		selectedExercise.idVisibleProperty().bind(config.debugProperty());
+		exerciseList.debugProperty().bind(config.debugProperty());
 	}
 	
 	public ExerciseViewModel getSelectedExercise() {
-		return selectedExercise.get();
-	}
-	
-	public final ObjectProperty<ConfigurationViewModel> configProperty() {
-		return this.config;
+		return selectedExercise;
 	}
 
 	public final net.d80harri.coach.ui.conf.ConfigurationViewModel getConfig() {
-		return this.configProperty().get();
+		return this.config;
 	}
 
-	public final void setConfig(final net.d80harri.coach.ui.conf.ConfigurationViewModel config) {
-		this.configProperty().set(config);
-	}
-
-	public final ObjectProperty<ExerciseListViewModel> exerciseListProperty() {
+	public final ExerciseListViewModel getExerciseList() {
 		return this.exerciseList;
-	}
-
-	public final net.d80harri.coach.ui.exercise.ExerciseListViewModel getExerciseList() {
-		return this.exerciseListProperty().get();
-	}
-
-	public final void setExerciseList(final net.d80harri.coach.ui.exercise.ExerciseListViewModel exerciseList) {
-		this.exerciseListProperty().set(exerciseList);
 	}
 
 }
