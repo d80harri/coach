@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+jar {
+    baseName = 'net.d80harri.coach:ui'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+	compile project(':domain')
+	
+	compile "org.fxmisc.easybind:easybind:1.0.3"
+
+	testCompile "org.assertj:assertj-core:3.3.0"
+	testCompile "junit:junit:4.12"
+	testCompile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
+	testCompile "org.mockito:mockito-all:1.9.5"
+}
