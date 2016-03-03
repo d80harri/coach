@@ -1,11 +1,41 @@
-subprojects {
-    apply plugin: 'java'
-    group = 'net.d80harri.coach'
-    version = '0.0.1-SNAPSHOT'
-    repositories {
+allprojects {
+	apply plugin: 'jacoco'
+	
+	repositories {
         mavenCentral()
     }
+}
+
+subprojects {
+    apply plugin: 'java'
+    
+    group = 'net.d80harri.coach'
+    version = '0.0.1-SNAPSHOT'
+
     dependencies {
-        testCompile "junit:junit:4.12"
+        testCompile	"org.assertj:assertj-core:3.3.0"
+		testCompile "junit:junit:4.12"
+		testCompile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
+		testCompile "org.mockito:mockito-all:1.9.5"
     }
 }
+
+task codeCoverageReport(type: JacocoReport) {
+
+    // Gather execution data from all subprojects
+    // (change this if you e.g. want to calculate unit test/integration test coverage separately)
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    // Add all relevant sourcesets from the subprojects 
+    subprojects.each {
+       sourceSets it.sourceSets.main
+    }
+
+    reports {
+      xml.enabled true
+      html.enabled true
+      html.destination "${buildDir}/reports/jacoco"
+      csv.enabled false
+    }
+}
+
