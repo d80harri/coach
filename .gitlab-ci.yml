@@ -1,5 +1,5 @@
-maven-build:
+build:
   script:
-    - mvn clean integration-test
+    - ./gradlew build
 
 
