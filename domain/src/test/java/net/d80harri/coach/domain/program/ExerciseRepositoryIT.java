@@ -10,13 +10,19 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import net.d80harri.coach.domain.DomainConfiguration;
 import net.d80harri.coach.domain.exercise.Exercise;
 import net.d80harri.coach.domain.exercise.ExerciseRepository;
 import net.d80harri.coach.domain.repository.ConfigurationBuilder;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=DomainConfiguration.class)
 public class ExerciseRepositoryIT {
 	private Configuration configuration = new ConfigurationBuilder().build();
 	private ExerciseRepository target;

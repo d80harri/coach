@@ -3,11 +3,9 @@ package net.d80harri.coach.rest;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -16,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.spring.boot.KatharsisConfigV2;
-import net.d80harri.coach.domain.repository.ConfigurationBuilder;
+import net.d80harri.coach.domain.DomainConfiguration;
 
 @Configuration
 @RestController
 @SpringBootApplication
-@ComponentScan(value={"net.d80harri"})
-@Import(KatharsisConfigV2.class)
+@ComponentScan(value={"net.d80harri.coach.rest"})
+@Import({KatharsisConfigV2.class, DomainConfiguration.class})
 public class Application {
 	@Autowired
     private ResourceRegistry resourceRegistry;
-
+	
     @RequestMapping("/resourcesInfo")
     public Map<?, ?> getResources() {
         Map<String, String> result = new HashMap<>();
@@ -36,18 +34,9 @@ public class Application {
         }
         return result;
     }
-    
-    @Bean
-    public org.hibernate.SessionFactory getSessionFactory(org.hibernate.cfg.Configuration configuration){
-    	return configuration.buildSessionFactory(new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry());
-    }
-    
-    @Bean
-    public org.hibernate.cfg.Configuration getSessionManager(ConfigurationBuilder builder){
-        return builder.build();
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
 }
