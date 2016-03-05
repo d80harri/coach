@@ -3,9 +3,12 @@ package net.d80harri.coach.rest;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.service.ServiceRegistryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.spring.boot.KatharsisConfigV2;
+import net.d80harri.coach.domain.repository.ConfigurationBuilder;
 
 @Configuration
 @RestController
 @SpringBootApplication
+@ComponentScan(value={"net.d80harri"})
 @Import(KatharsisConfigV2.class)
 public class Application {
 	@Autowired
@@ -30,6 +35,16 @@ public class Application {
            result.put(resourceRegistry.getResourceType(clazz), resourceRegistry.getResourceUrl(clazz));
         }
         return result;
+    }
+    
+    @Bean
+    public org.hibernate.SessionFactory getSessionFactory(org.hibernate.cfg.Configuration configuration){
+    	return configuration.buildSessionFactory(new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry());
+    }
+    
+    @Bean
+    public org.hibernate.cfg.Configuration getSessionManager(ConfigurationBuilder builder){
+        return builder.build();
     }
 
     public static void main(String[] args) {

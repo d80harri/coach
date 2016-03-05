@@ -2,12 +2,15 @@ package net.d80harri.coach.domain.repository;
 
 import java.util.Stack;
 
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TransactionManager {
 	private SessionManager sessionManager;
 	private ThreadLocal<Stack<TransactionHolder>> transactions = new ThreadLocal<>();
 
+	@Autowired
 	public TransactionManager(SessionManager sessionManager) {
 		this.sessionManager = sessionManager;
 	}
