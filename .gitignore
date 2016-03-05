@@ -21,3 +21,11 @@ gradle-app.setting
 .project
 .settings
 target
+
+########################
+# NODE
+########################
+node_modules
+typings
+**/*.js
+**/*.js.map
