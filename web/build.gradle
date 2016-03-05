@@ -33,6 +33,9 @@ dependencies {
     // end::jetty[]
     // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('io.katharsis:katharsis-spring:2.3.0')
+    compile('org.reflections:reflections:0.9.10')
+    
     // end::actuator[]
     testCompile("junit:junit")
 }
