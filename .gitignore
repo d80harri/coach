@@ -21,6 +21,7 @@ gradle-app.setting
 .project
 .settings
 target
+bin
 
 ########################
 # NODE
