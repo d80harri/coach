@@ -1,5 +1,5 @@
-CREATE TABLE Exercise(
-  id BINARY,
-  name VARCHAR(256),
-  description VARCHAR(256)
+create table Exercise (
+  id binary,
+  name varchar(256),
+  description varchar(256)
 )
