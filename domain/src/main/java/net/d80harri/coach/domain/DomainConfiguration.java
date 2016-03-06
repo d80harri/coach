@@ -51,7 +51,7 @@ public class DomainConfiguration {
 	public LocalSessionFactoryBean sessionFactory(DataSource datasource, HibernateProperties properties) {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(datasource);
-		sessionFactory.setPackagesToScan(new String[] { "net.d80harri.coach.domain" });
+		sessionFactory.setPackagesToScan(new String[] { "net.d80harri.coach.domain.exercise" });
 		sessionFactory.setHibernateProperties(new Properties() {
 			{
 				setProperty("hibernate.hbm2ddl.auto", properties.getHbm2ddlAuto());
