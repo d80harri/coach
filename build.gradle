@@ -12,12 +12,43 @@ subprojects {
     group = 'net.d80harri.coach'
     version = '0.0.1-SNAPSHOT'
 
-    dependencies {
-        testCompile	"org.assertj:assertj-core:3.3.0"
-		testCompile "junit:junit:4.12"
-		testCompile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
-		testCompile "org.mockito:mockito-all:1.9.5"
+    buildscript {
+      sourceSets {
+          integrationTest {
+              java {
+                  compileClasspath += main.output + test.output
+                  runtimeClasspath += main.output + test.output
+                  srcDir file('src/integration-test/java')
+              }
+              resources.srcDir file('src/integration-test/resources')
+          }
+      }
+        
+        configurations {
+          integrationTestCompile.extendsFrom testCompile
+          integrationTestRuntime.extendsFrom testRuntime
+      }
     }
+
+    dependencies {
+      testCompile	"org.assertj:assertj-core:3.3.0"
+		  testCompile "junit:junit:4.12"
+		  testCompile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
+		  testCompile "org.mockito:mockito-all:1.9.5"
+    }
+
+    task integrationTest(type: Test) {
+        testClassesDir = sourceSets.integrationTest.output.classesDir
+        classpath = sourceSets.integrationTest.runtimeClasspath
+        outputs.upToDateWhen { false }
+    }
+
+    tasks.withType(Test) {
+        reports.html.destination = file("${reporting.baseDir}/${name}")
+    }
+
+    check.dependsOn integrationTest
+    integrationTest.mustRunAfter test
 }
 
 task codeCoverageReport(type: JacocoReport) {
@@ -38,4 +69,5 @@ task codeCoverageReport(type: JacocoReport) {
       csv.enabled false
     }
 }
+
 

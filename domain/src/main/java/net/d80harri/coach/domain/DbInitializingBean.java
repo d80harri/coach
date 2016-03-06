@@ -4,6 +4,7 @@ import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,16 @@ public class DbInitializingBean implements ApplicationListener<ContextRefreshedE
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		if (automigrate)
-			this.flyway.migrate();
-
+			this.migrate();
+	}
+	
+	public void migrate() {
+		this.flyway.migrate();
+	}
+	
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(DomainConfiguration.class);
+		DbInitializingBean initBean = ctx.getBean(DbInitializingBean.class);
+		initBean.migrate();
 	}
 }

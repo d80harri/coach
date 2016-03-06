@@ -1,1 +1,1 @@
-include 'domain', 'ui', 'web'
+include 'domain', 'web'

@@ -1,4 +1,4 @@
-package net.d80harri.coach.domain.program;
+package net.d80harri.coach.domain.exercise;
 
 import java.sql.SQLException;
 import java.util.List;
