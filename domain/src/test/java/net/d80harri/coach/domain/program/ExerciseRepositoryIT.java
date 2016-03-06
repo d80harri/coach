@@ -1,6 +1,5 @@
 package net.d80harri.coach.domain.program;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -9,17 +8,16 @@ import javax.sql.DataSource;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.dbunit.rules.DBUnitRule;
 import com.github.dbunit.rules.api.dataset.DataSet;
-import com.sun.media.jfxmedia.locator.ConnectionHolder;
 
 import net.d80harri.coach.domain.DomainConfiguration;
 import net.d80harri.coach.domain.exercise.Exercise;

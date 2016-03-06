@@ -15,7 +15,7 @@ public class DbProperties {
 	private final String driverClass;
 
 	@Autowired
-	public DbProperties(@Value("${db.connectionUrl :jdbc:h2:~/test}") String connectionUrl,
+	public DbProperties(@Value("${db.connectionUrl :jdbc:h2:~/test;AUTO_SERVER=TRUE}") String connectionUrl,
 			@Value("${db.userName :root}") String connectionUserName, @Value("${db.pwd :passme}") String connectionPwd,
 			@Value("${db.driverClass :org.h2.Driver}") String driverClass) {
 		this.connectionUrl = connectionUrl;

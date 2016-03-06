@@ -3,12 +3,18 @@ package net.d80harri.coach.rest.exercise;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import com.jayway.restassured.RestAssured;
 
+import net.d80harri.coach.rest.ServerRule;
+
 public class ExerciseControllerIT {
 
+	@ClassRule
+	public static ServerRule serverRule = new ServerRule();
+	
     @Before
     public void setUp() {
         // 9
