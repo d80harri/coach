@@ -1,5 +1,6 @@
 package net.d80harri.coach.domain.repository;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.Stack;
 
 import org.hibernate.Session;
@@ -24,7 +25,7 @@ public class SessionManager {
 		Stack<SessionHolder> stack = getSessions();
 		if (stack.isEmpty()) {
 			Session session = sessionFactory.openSession();
-			result = new SessionHolder(session, 1);
+			result = new SessionHolder(session, this);
 			stack.push(result);
 		} else {
 			result = stack.peek();
@@ -48,6 +49,14 @@ public class SessionManager {
 			sessions.set(stack);
 		}
 		return stack;
+	}
+
+	public void close(SessionHolder sessionHolder) {
+		SessionHolder topHolder = getSessions().pop();
+		if (topHolder != sessionHolder)
+			throw new IllegalSelectorException();
+		
+		topHolder.getSession().close();
 	}
 
 }
