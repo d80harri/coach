@@ -1,6 +1,5 @@
 package net.d80harri.coach.domain.exercise;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,10 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.github.dbunit.rules.DBUnitRule;
-import com.github.dbunit.rules.api.dataset.DataSet;
-
 import net.d80harri.coach.domain.DomainConfiguration;
+import net.d80harri.coach.domain.FlywayRule;
 import net.d80harri.coach.domain.config.db.DbProperties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,23 +26,15 @@ public class ExerciseRepositoryIT {
 
 	@Autowired
 	DataSource connection;
-	
+
 	@Autowired
 	DbProperties props;
-
 	
-	public DBUnitRule dbUnitRule;
-
+	@Autowired
 	@Rule
-	public DBUnitRule getDbUnitRule() throws SQLException {
-		if (dbUnitRule == null) {
-		dbUnitRule = DBUnitRule.instance(connection.getConnection());
-		}
-		return dbUnitRule;
-	}
+	public FlywayRule flywayRule;
 
 	@Test
-	@DataSet(value = "", cleanBefore = true)
 	public void testReadAll() {
 		List<Exercise> result = target.getAll();
 		Assertions.assertThat(result).hasSize(0);

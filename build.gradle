@@ -1,5 +1,6 @@
 allprojects {
 	apply plugin: 'jacoco'
+	apply plugin: 'eclipse'
 	
 	repositories {
         mavenCentral()
@@ -32,9 +33,9 @@ subprojects {
 
     dependencies {
       testCompile	"org.assertj:assertj-core:3.3.0"
-		  testCompile "junit:junit:4.12"
-		  testCompile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
-		  testCompile "org.mockito:mockito-all:1.9.5"
+	  testCompile "junit:junit:4.12"
+	  testCompile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
+	  testCompile "org.mockito:mockito-all:1.9.5"
     }
 
     task integrationTest(type: Test) {

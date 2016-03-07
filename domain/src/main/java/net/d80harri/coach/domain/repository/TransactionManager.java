@@ -18,7 +18,7 @@ public class TransactionManager {
 	public TransactionHolder beginOrGet() {
 		TransactionHolder currentTransaction = getCurrentTransaction();
 		if (currentTransaction == null) {
-			currentTransaction = new TransactionHolder(sessionManager.createTransaction());
+			currentTransaction = new TransactionHolder(sessionManager.createTransaction(), this);
 			getTransactions().push(currentTransaction);
 		}
 
@@ -35,13 +35,22 @@ public class TransactionManager {
 		return result;
 	}
 
-	private Stack<TransactionHolder> getTransactions() {
+	protected Stack<TransactionHolder> getTransactions() {
 		Stack<TransactionHolder> result = transactions.get();
 		if (result == null) {
 			result = new Stack<>();
 			transactions.set(result);
 		}
 		return result;
+	}
+
+	public void commitTransaction(TransactionHolder transactionHolder) {
+		TransactionHolder nextHolder = getTransactions().pop();
+		if (nextHolder != transactionHolder) {
+			throw new IllegalStateException();
+		}
+		transactionHolder.getTransaction().commit();
+
 	}
 
 }

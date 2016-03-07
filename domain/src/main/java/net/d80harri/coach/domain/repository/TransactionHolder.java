@@ -4,12 +4,18 @@ import org.hibernate.Transaction;
 
 public class TransactionHolder implements AutoCloseable {
 	private Transaction transaction;
-	private int references = 0;
+	private TransactionManager manager;
+	private int references = 1;
 
-	public TransactionHolder(Transaction transaction) {
+	public TransactionHolder(Transaction transaction, TransactionManager manager) {
 		this.transaction = transaction;
+		this.manager = manager;
 	}
 
+	public Transaction getTransaction() {
+		return transaction;
+	}
+	
 	public void begin() {
 		if (references == 0) {
 			transaction.begin();
@@ -21,7 +27,7 @@ public class TransactionHolder implements AutoCloseable {
 	public void close() {
 		references--;
 		if (references == 0) {
-			transaction.commit();
+			manager.commitTransaction(this);
 		}
 	}
 

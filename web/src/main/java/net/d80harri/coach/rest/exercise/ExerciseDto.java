@@ -10,7 +10,7 @@ import io.katharsis.resource.annotations.JsonApiResource;
 @JsonApiResource(type = "exercises")
 public class ExerciseDto {
 	@JsonApiId
-    private UUID id;
+    private String id;
 
     @JsonProperty
     private String name;
@@ -18,10 +18,10 @@ public class ExerciseDto {
     @JsonProperty
     private String description;
     
-    public UUID getId() {
+    public String getId() {
 		return id;
 	}
-    public void setId(UUID id) {
+    public void setId(String id) {
 		this.id = id;
 	}
     public String getName() {

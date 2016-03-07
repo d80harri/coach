@@ -35,7 +35,7 @@ public class ExerciseController {
     @JsonApiSave
     public ExerciseDto save(ExerciseDto exercise) {
     	if (exercise.getId() == null) {
-    		exercise.setId(UUID.randomUUID());
+    		exercise.setId(UUID.randomUUID().toString());
     	}
     	exerciseRepository.saveOrUpdate(mapper.map(exercise, Exercise.class));
     	return mapper.map(exerciseRepository.getByID(exercise.getId()), ExerciseDto.class);
