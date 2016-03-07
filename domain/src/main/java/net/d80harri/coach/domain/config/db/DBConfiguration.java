@@ -14,7 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 public class DBConfiguration {
 
 	@Bean
-	public DataSource getDataSource(DbProperties properties) {
+	public DataSource dataSource(DbProperties properties) {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(properties.getDriverClass());
 		dataSource.setUrl(properties.getConnectionUrl());

@@ -12,6 +12,9 @@ public class Exercise {
 	private String name;
 	private String description;
 	
+	public Exercise() {
+	}
+	
 	public Exercise(String id) {
 		this.id = id;
 	}

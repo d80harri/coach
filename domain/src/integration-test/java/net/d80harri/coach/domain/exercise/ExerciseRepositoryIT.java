@@ -1,64 +1,51 @@
 package net.d80harri.coach.domain.exercise;
 
-import java.util.List;
-import java.util.UUID;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.groups.Tuple;
-import org.junit.Rule;
+import org.dbunit.database.DatabaseDataSourceConnection;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.database.search.TablesDependencyHelper;
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.util.search.SearchException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import net.d80harri.coach.domain.DomainConfiguration;
-import net.d80harri.coach.domain.FlywayRule;
-import net.d80harri.coach.domain.config.db.DbProperties;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+
+import net.d80harri.coach.domain.DomainTestConfiguration;
+import net.d80harri.coach.domain.FlatDatasetExport;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DomainConfiguration.class)
+@ContextConfiguration(classes = DomainTestConfiguration.class)
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+        DbUnitTestExecutionListener.class })
 public class ExerciseRepositoryIT {
 	@Autowired
 	private ExerciseRepository target;
 
 	@Autowired
-	DataSource connection;
-
-	@Autowired
-	DbProperties props;
-	
-	@Autowired
-	@Rule
-	public FlywayRule flywayRule; // TODO: this will delete an recreate the whole database. It would be better to simply delete all tables except the flyway migration table
+	private FlatDatasetExport export;
 
 	@Test
-	public void testReadAll() {
-		List<Exercise> result = target.getAll();
-		Assertions.assertThat(result).hasSize(0);
-	}
-
-	@Test
+	@DatabaseSetup("empty.xml")
+	@ExpectedDatabase(table="EXERCISE", value="firstAndSecond.xml")
 	public void testSaveOrUpdate() {
-		Exercise exercise = new Exercise(UUID.randomUUID().toString(), "MyName", "MyDescription");
-		target.saveOrUpdate(exercise);
-
-		Exercise read = target.getByID(exercise.getId());
-		Assertions.assertThat(read).isNotNull();
-		Assertions.assertThat(read.getId()).isEqualTo(exercise.getId());
-		Assertions.assertThat(read.getName()).isEqualTo(exercise.getName());
-		Assertions.assertThat(read.getDescription()).isEqualTo(exercise.getDescription());
-	}
-
-	@Test
-	public void test() {
-		target.saveOrUpdate(new Exercise(UUID.randomUUID().toString(), "First Ex", "First Ex desc"));
-		target.saveOrUpdate(new Exercise(UUID.randomUUID().toString(), "Second Ex", "Second Ex desc"));
-
-		List<Exercise> allResult = target.getAll();
-		Assertions.assertThat(allResult).hasSize(2).extracting("name", "description")
-				.containsExactly(new Tuple("First Ex", "First Ex desc"), new Tuple("Second Ex", "Second Ex desc"));
+		target.saveOrUpdate(new Exercise("b9084b88-2267-47ee-9319-610edd22ba97", "First Ex", "First Ex desc"));
+		target.saveOrUpdate(new Exercise("8bdbfa8b-07c0-4798-8ff7-6b69cb222b81", "Second Ex", "Second Ex desc"));
+		System.out.println(export.exportToString());
 	}
 }
