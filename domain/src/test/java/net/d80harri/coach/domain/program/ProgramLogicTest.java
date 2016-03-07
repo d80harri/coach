@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import net.d80harri.coach.domain.DomainMapper;
 import net.d80harri.coach.domain.DomainAssertions;
+import net.d80harri.coach.domain.DomainMapper;
 import net.d80harri.coach.domain.Entity;
 import net.d80harri.coach.domain.program.entities.ProgramEntity;
 import net.d80harri.coach.domain.program.entities.SequenceActionEntity;

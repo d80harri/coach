@@ -2,22 +2,9 @@ package net.d80harri.coach.domain.exercise;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.assertj.core.groups.Tuple;
-import org.dbunit.database.DatabaseDataSourceConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.database.search.TablesDependencyHelper;
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.util.search.SearchException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +21,6 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import net.d80harri.coach.domain.DomainAssertions;
 import net.d80harri.coach.domain.DomainTestConfiguration;
 import net.d80harri.coach.domain.FlatDatasetExport;
-import net.d80harri.coach.domain.ProgramAssert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DomainTestConfiguration.class)

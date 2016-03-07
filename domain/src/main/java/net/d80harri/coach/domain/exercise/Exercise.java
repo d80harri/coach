@@ -1,7 +1,5 @@
 package net.d80harri.coach.domain.exercise;
 
-import java.util.UUID;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
