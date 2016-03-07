@@ -30,7 +30,7 @@ public class ExerciseRepository {
 		}
 	}
 
-	public Exercise getByID(UUID id) {
+	public Exercise getByID(String id) {
 		try(SessionHolder session = sessionManager.getOrCreateSession()) {
 			return session.getByID(Exercise.class, id);
 		}

@@ -8,24 +8,24 @@ import javax.persistence.Id;
 @Entity(name="Exercise")
 public class Exercise {
 	@Id
-	private UUID id;
+	private String id;
 	private String name;
 	private String description;
 	
-	public Exercise(UUID id) {
+	public Exercise(String id) {
 		this.id = id;
 	}
 	
-	public Exercise(UUID id, String name, String description) {
+	public Exercise(String id, String name, String description) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
 	
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(UUID id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

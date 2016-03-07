@@ -1,4 +1,4 @@
-package net.d80harri.coach.domain;
+package net.d80harri.coach.domain.config.db;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,9 +15,9 @@ public class DbProperties {
 	private final String driverClass;
 
 	@Autowired
-	public DbProperties(@Value("${db.connectionUrl :jdbc:h2:~/test;AUTO_SERVER=TRUE}") String connectionUrl,
-			@Value("${db.userName :root}") String connectionUserName, @Value("${db.pwd :passme}") String connectionPwd,
-			@Value("${db.driverClass :org.h2.Driver}") String driverClass) {
+	public DbProperties(@Value("${db.connectionUrl:jdbc:h2:~/coach_default;AUTO_SERVER=TRUE}") String connectionUrl,
+			@Value("${db.userName:root}") String connectionUserName, @Value("${db.pwd:passme}") String connectionPwd,
+			@Value("${db.driverClass:org.h2.Driver}") String driverClass) {
 		this.connectionUrl = connectionUrl;
 		this.connectionUserName = connectionUserName;
 		this.connectionPwd = connectionPwd;

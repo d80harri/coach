@@ -36,7 +36,7 @@ public class SessionHolder implements Closeable {
 		session.saveOrUpdate(entity);
 	}
 
-	public <T> T getByID(Class<T> type, UUID id) {
+	public <T> T getByID(Class<T> type, String id) {
 		return (T)session.get(type, id);
 	}
 

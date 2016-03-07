@@ -4,43 +4,31 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
+import net.d80harri.coach.domain.config.db.DBConfiguration;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
 
 @Configuration
 @ComponentScan(value = { "net.d80harri.coach.domain" })
-@PropertySource("classpath:domain.properties")
+@PropertySource(ignoreResourceNotFound=false, value="classpath:domain.properties")
+@Import({ DBConfiguration.class })
 public class DomainConfiguration {
-
-	@Bean
-	public Flyway getFlyway(DataSource datasource) {
-		Flyway result = new Flyway();
-		result.setDataSource(datasource);
-		result.setTable("__META__");
-		return result;
-	}
 
 	@Bean
 	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(sessionFactory);
 		return txManager;
-	}
-
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
-		return new PropertySourcesPlaceholderConfigurer();
 	}
 
 	@Bean
@@ -64,16 +52,13 @@ public class DomainConfiguration {
 
 		return sessionFactory;
 	}
-
+	
 	@Bean
-	public DataSource getDataSource(DbProperties properties) {
-		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName(properties.getDriverClass());
-		dataSource.setUrl(properties.getConnectionUrl());
-		dataSource.setUsername(properties.getConnectionUserName());
-		dataSource.setPassword(properties.getConnectionPwd());
+	 public static PropertySourcesPlaceholderConfigurer   propertySourcesPlaceholderConfigurer() {
+	     PropertySourcesPlaceholderConfigurer p =  new PropertySourcesPlaceholderConfigurer();
+	     p.setIgnoreResourceNotFound(true);
 
-		return dataSource;
-	}
+	    return p;
+	 }
 
 }

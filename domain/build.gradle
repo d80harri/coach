@@ -23,9 +23,8 @@ dependencies {
 }
 
 task setUpDb(type: JavaExec) {
-	println "${buildDir}/${libsDirName}/${archivesBaseName} setting up db"
-	classpath sourceSets.main.runtimeClasspath
-    main = "net.d80harri.coach.domain.DbInitializingBean"
+	classpath sourceSets.integrationTest.runtimeClasspath
+    main = "net.d80harri.coach.domain.config.flyway.DbInitializingBean"
 }
 
 integrationTest.dependsOn setUpDb

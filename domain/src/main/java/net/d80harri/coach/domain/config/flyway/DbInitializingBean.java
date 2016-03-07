@@ -1,4 +1,4 @@
-package net.d80harri.coach.domain;
+package net.d80harri.coach.domain.config.flyway;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class DbInitializingBean implements ApplicationListener<ContextRefreshedE
 	private final boolean automigrate;
 
 	@Autowired
-	public DbInitializingBean(Flyway flyway, @Value("${db.migrate.auto:true}") boolean automigrate) {
+	public DbInitializingBean(Flyway flyway, @Value("${db.migrate.auto:false}") boolean automigrate) {
 		this.flyway = flyway;
 		this.automigrate = automigrate;
 	}
@@ -31,7 +31,7 @@ public class DbInitializingBean implements ApplicationListener<ContextRefreshedE
 	}
 	
 	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(DomainConfiguration.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(FlywayConfiguration.class);
 		DbInitializingBean initBean = ctx.getBean(DbInitializingBean.class);
 		initBean.migrate();
 	}

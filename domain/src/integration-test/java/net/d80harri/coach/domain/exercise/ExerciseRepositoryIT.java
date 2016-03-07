@@ -12,7 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,8 +19,7 @@ import com.github.dbunit.rules.DBUnitRule;
 import com.github.dbunit.rules.api.dataset.DataSet;
 
 import net.d80harri.coach.domain.DomainConfiguration;
-import net.d80harri.coach.domain.exercise.Exercise;
-import net.d80harri.coach.domain.exercise.ExerciseRepository;
+import net.d80harri.coach.domain.config.db.DbProperties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DomainConfiguration.class)
@@ -31,6 +29,9 @@ public class ExerciseRepositoryIT {
 
 	@Autowired
 	DataSource connection;
+	
+	@Autowired
+	DbProperties props;
 
 	
 	public DBUnitRule dbUnitRule;
@@ -52,7 +53,7 @@ public class ExerciseRepositoryIT {
 
 	@Test
 	public void testSaveOrUpdate() {
-		Exercise exercise = new Exercise(UUID.randomUUID(), "MyName", "MyDescription");
+		Exercise exercise = new Exercise(UUID.randomUUID().toString(), "MyName", "MyDescription");
 		target.saveOrUpdate(exercise);
 
 		Exercise read = target.getByID(exercise.getId());
@@ -64,8 +65,8 @@ public class ExerciseRepositoryIT {
 
 	@Test
 	public void test() {
-		target.saveOrUpdate(new Exercise(UUID.randomUUID(), "First Ex", "First Ex desc"));
-		target.saveOrUpdate(new Exercise(UUID.randomUUID(), "Second Ex", "Second Ex desc"));
+		target.saveOrUpdate(new Exercise(UUID.randomUUID().toString(), "First Ex", "First Ex desc"));
+		target.saveOrUpdate(new Exercise(UUID.randomUUID().toString(), "Second Ex", "Second Ex desc"));
 
 		List<Exercise> allResult = target.getAll();
 		Assertions.assertThat(allResult).hasSize(2).extracting("name", "description")

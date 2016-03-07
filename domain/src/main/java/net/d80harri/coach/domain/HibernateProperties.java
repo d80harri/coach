@@ -12,10 +12,10 @@ public class HibernateProperties {
 	private final boolean quoteIdentifiers;
 
 	@Autowired
-	public HibernateProperties(@Value("${hibernate.hbm2ddlAuto : validate}") String hbm2ddlAuto,
-			@Value("${hibernate.showSql :true}") boolean showSql,
-			@Value("${hibernate.dialect :org.hibernate.dialect.H2Dialect}") String dialect,
-			@Value("${hibernate.quoteIdentifiers :false}") boolean quoteIdentifiers) {
+	public HibernateProperties(@Value("${hibernate.hbm2ddlAuto:validate}") String hbm2ddlAuto,
+			@Value("${hibernate.showSql:true}") boolean showSql,
+			@Value("${hibernate.dialect:org.hibernate.dialect.H2Dialect}") String dialect,
+			@Value("${hibernate.quoteIdentifiers:false}") boolean quoteIdentifiers) {
 		super();
 		this.hbm2ddlAuto = hbm2ddlAuto;
 		this.showSql = showSql;

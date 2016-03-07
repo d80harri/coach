@@ -1,5 +1,5 @@
 create table Exercise (
-  id binary,
+  id varchar(36),
   name varchar(256),
   description varchar(256)
 )
