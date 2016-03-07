@@ -32,7 +32,7 @@ public class ExerciseRepositoryIT {
 	
 	@Autowired
 	@Rule
-	public FlywayRule flywayRule;
+	public FlywayRule flywayRule; // TODO: this will delete an recreate the whole database. It would be better to simply delete all tables except the flyway migration table
 
 	@Test
 	public void testReadAll() {

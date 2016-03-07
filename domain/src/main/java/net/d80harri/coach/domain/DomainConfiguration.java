@@ -1,5 +1,7 @@
 package net.d80harri.coach.domain;
 
+// TODO: Add unit tests for all classes possible
+// TODO: Some deps should be in scope integrationtTestCompile instead of testCompile. Does not work right now because eclipse does know nothing about integrationTestCompile
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -20,7 +22,7 @@ import net.d80harri.coach.domain.repository.TransactionManager;
 
 @Configuration
 @ComponentScan(value = { "net.d80harri.coach.domain" })
-@PropertySource(ignoreResourceNotFound=false, value="classpath:domain.properties")
+@PropertySource(ignoreResourceNotFound = false, value = "classpath:domain.properties")
 @Import({ DBConfiguration.class })
 public class DomainConfiguration {
 
@@ -28,7 +30,7 @@ public class DomainConfiguration {
 	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(sessionFactory);
-		
+
 		return txManager;
 	}
 
@@ -47,19 +49,19 @@ public class DomainConfiguration {
 			{
 				setProperty("hibernate.hbm2ddl.auto", properties.getHbm2ddlAuto());
 				setProperty("hibernate.dialect", properties.getDialect());
-				setProperty("hibernate.globally_quoted_identifiers", ""+properties.isQuoteIdentifiers());
+				setProperty("hibernate.globally_quoted_identifiers", "" + properties.isQuoteIdentifiers());
 			}
 		});
 
 		return sessionFactory;
 	}
-	
-	@Bean
-	 public static PropertySourcesPlaceholderConfigurer   propertySourcesPlaceholderConfigurer() {
-	     PropertySourcesPlaceholderConfigurer p =  new PropertySourcesPlaceholderConfigurer();
-	     p.setIgnoreResourceNotFound(true);
 
-	    return p;
-	 }
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
+		p.setIgnoreResourceNotFound(true);
+
+		return p;
+	}
 
 }
