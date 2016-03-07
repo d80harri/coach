@@ -1,7 +1,6 @@
 package net.d80harri.coach.domain.repository;
 
 import java.io.Closeable;
-import java.util.UUID;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -9,19 +8,20 @@ import org.hibernate.Transaction;
 
 public class SessionHolder implements Closeable {
 	private Session session;
-	private int references = 0;
+	private SessionManager sessionManager;
+	private int references = 1;
 	
-	public SessionHolder(Session session, int references) {
+	public SessionHolder(Session session, SessionManager sessionManager) {
 		this.session = session;
-		this.references = references;
+		this.sessionManager = sessionManager;
 	}
 
 	@Override
 	public void close() {
-		if (references == 0) {
-			session.close();
-		}
 		references--;
+		if (references == 0) {
+			sessionManager.close(this);
+		}
 	}
 	
 	public void attach() {
@@ -46,6 +46,10 @@ public class SessionHolder implements Closeable {
 
 	public Transaction beginTransaction() {
 		return this.session.beginTransaction();
+	}
+
+	public Session getSession() {
+		return this.session;
 	}
 
 }
