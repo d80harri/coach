@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import net.d80harri.coach.domain.DomainMapper;
-import net.d80harri.coach.domain.DtoAssertions;
+import net.d80harri.coach.domain.DomainAssertions;
 import net.d80harri.coach.domain.Entity;
 import net.d80harri.coach.domain.program.entities.ProgramEntity;
 import net.d80harri.coach.domain.program.entities.SequenceActionEntity;
@@ -37,8 +37,8 @@ public class ProgramLogicTest {
 		
 		Program readProgram = logic.getById(program.getUuid()).get();
 		
-		DtoAssertions.assertThat(readProgram).isNotNull().hasId(program.getUuid()).hasActionId(programAction.getUuid());
-		DtoAssertions.assertThat(readProgram.getAction()).hasId(programAction.getUuid()).isSequenceAction().containsExactlyActionIds(warmupAction.getUuid(), skill.getUuid(), strength.getUuid());
+		DomainAssertions.assertThat(readProgram).isNotNull().hasId(program.getUuid()).hasActionId(programAction.getUuid());
+		DomainAssertions.assertThat(readProgram.getAction()).hasId(programAction.getUuid()).isSequenceAction().containsExactlyActionIds(warmupAction.getUuid(), skill.getUuid(), strength.getUuid());
 	}
 	
 	@Test
@@ -59,12 +59,12 @@ public class ProgramLogicTest {
 		dao.put(program);
 		
 		List<Program> readPrograms = logic.getAll();
-		DtoAssertions.assertThat(readPrograms).hasSize(1);
+		DomainAssertions.assertThat(readPrograms).hasSize(1);
 		
 		
 		Program readProgram = readPrograms.get(0);
-		DtoAssertions.assertThat(readProgram).isNotNull().hasId(program.getUuid()).hasActionId(programAction.getUuid());
-		DtoAssertions.assertThat(readProgram.getAction()).hasId(programAction.getUuid()).isSequenceAction().containsExactlyActionIds(warmupAction.getUuid(), skill.getUuid(), strength.getUuid());
+		DomainAssertions.assertThat(readProgram).isNotNull().hasId(program.getUuid()).hasActionId(programAction.getUuid());
+		DomainAssertions.assertThat(readProgram.getAction()).hasId(programAction.getUuid()).isSequenceAction().containsExactlyActionIds(warmupAction.getUuid(), skill.getUuid(), strength.getUuid());
 	}
 	
 	@Test
