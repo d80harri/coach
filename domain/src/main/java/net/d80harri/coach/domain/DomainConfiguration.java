@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -17,13 +18,14 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 import net.d80harri.coach.domain.config.db.DBConfiguration;
+import net.d80harri.coach.domain.config.db.FlywayConfiguration;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
 
 @Configuration
 @ComponentScan(value = { "net.d80harri.coach.domain" })
-@PropertySource(ignoreResourceNotFound = false, value = "classpath:domain.properties")
-@Import({ DBConfiguration.class })
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:domain.properties")
+@Import({ DBConfiguration.class, FlywayConfiguration.class })
 public class DomainConfiguration {
 
 	@Bean
@@ -41,6 +43,7 @@ public class DomainConfiguration {
 	}
 
 	@Bean
+	@DependsOn("flyway")
 	public LocalSessionFactoryBean sessionFactory(DataSource datasource, HibernateProperties properties) {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(datasource);

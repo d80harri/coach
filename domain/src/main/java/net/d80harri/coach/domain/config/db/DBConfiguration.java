@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(ignoreResourceNotFound=false, value="classpath:domain.properties")
+@PropertySource(ignoreResourceNotFound=true, value="classpath:domain.properties")
 @ComponentScan(basePackageClasses=DBConfiguration.class)
 public class DBConfiguration {
 

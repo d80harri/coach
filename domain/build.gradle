@@ -27,7 +27,7 @@ dependencies {
 
 task setUpDb(type: JavaExec) {
 	classpath sourceSets.integrationTest.runtimeClasspath
-    main = "net.d80harri.coach.domain.config.flyway.DbInitializingBean"
+    main = "net.d80harri.coach.domain.config.db.FlywayConfiguration"
 }
 
 integrationTest.dependsOn setUpDb
