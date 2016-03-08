@@ -1,5 +1,8 @@
 build:
   script:
     - ./gradlew build
+    
+artifacts:
+  untracked: true
 
 
