@@ -46,6 +46,14 @@ dependencies {
     testCompile('com.jayway.restassured:rest-assured:2.9.0')
 }
 
+integrationTest {
+	systemProperties = rootProject.systemProperties
+}
+
+bootRun {
+ 	systemProperties = rootProject.systemProperties
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }

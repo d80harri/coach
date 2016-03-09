@@ -1,6 +1,6 @@
 build:
   script:
-    - ./gradlew build
+    - ./gradlew build -Pprofile=gitlab
   artifacts:
     untracked: true
 

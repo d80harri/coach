@@ -1,3 +1,11 @@
+if (project.hasProperty('profile')) {
+	profile = project.getProperty('profile')
+	print 'applying profile ' + profile
+	apply from: 'gradle/profiles/' + profile + '.gradle'
+} else {
+	throw new GradleException('No profile given. Please specify a profile with -Pprofile=')
+}
+
 allprojects {
 	apply plugin: 'jacoco'
 	apply plugin: 'eclipse'

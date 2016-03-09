@@ -3,23 +3,22 @@ package net.d80harri.coach.domain.config.db;
 import javax.sql.DataSource;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(ignoreResourceNotFound=true, value="classpath:domain.properties")
-@ComponentScan(basePackageClasses=DBConfiguration.class)
+@ComponentScan(basePackageClasses = DBConfiguration.class)
 public class DBConfiguration {
 
 	@Bean
-	public DataSource dataSource(DbProperties properties) {
+	public DataSource dataSource(@Value("${db.driverClass}") String driverClass, @Value("${db.connectionUrl}") String connectionUrl, @Value("${db.userName}") String connectionUserName, @Value("${db.pwd}")String connectionPwd) {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName(properties.getDriverClass());
-		dataSource.setUrl(properties.getConnectionUrl());
-		dataSource.setUsername(properties.getConnectionUserName());
-		dataSource.setPassword(properties.getConnectionPwd());
+		dataSource.setDriverClassName(driverClass);
+		dataSource.setUrl(connectionUrl);
+		dataSource.setUsername(connectionUserName);
+		dataSource.setPassword(connectionPwd);
 
 		return dataSource;
 	}

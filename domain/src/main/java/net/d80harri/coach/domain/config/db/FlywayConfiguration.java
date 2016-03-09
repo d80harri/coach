@@ -29,6 +29,7 @@ public class FlywayConfiguration {
 	 public static PropertySourcesPlaceholderConfigurer   propertySourcesPlaceholderConfigurer() {
 	     PropertySourcesPlaceholderConfigurer p =  new PropertySourcesPlaceholderConfigurer();
 	     p.setIgnoreResourceNotFound(true);
+	     p.setProperties(System.getProperties());
 
 	    return p;
 	 }

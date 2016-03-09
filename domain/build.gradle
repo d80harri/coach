@@ -25,12 +25,13 @@ dependencies {
         
 }
 
-task setUpDb(type: JavaExec) {
+task setUpDbForIT(type: JavaExec) {
 	classpath sourceSets.integrationTest.runtimeClasspath
-    main = "net.d80harri.coach.domain.config.db.FlywayConfiguration"
+    main = 'net.d80harri.coach.domain.config.db.FlywayConfiguration'
+    systemProperties = rootProject.systemProperties
 }
 
-integrationTest.dependsOn setUpDb
+integrationTest.dependsOn setUpDbForIT
 
 sourceSets {
     main {

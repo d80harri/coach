@@ -18,7 +18,7 @@ public class ExerciseControllerIT {
     @Before
     public void setUp() {
         // 9
-        RestAssured.port = 8080;
+        RestAssured.port = Integer.parseInt(System.getProperty("server.port"));
         RestAssured.baseURI = "http://localhost";
     }
     

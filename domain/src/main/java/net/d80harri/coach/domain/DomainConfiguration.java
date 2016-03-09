@@ -12,8 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
@@ -24,7 +22,6 @@ import net.d80harri.coach.domain.repository.TransactionManager;
 
 @Configuration
 @ComponentScan(value = { "net.d80harri.coach.domain" })
-@PropertySource(ignoreResourceNotFound = true, value = "classpath:domain.properties")
 @Import({ DBConfiguration.class, FlywayConfiguration.class })
 public class DomainConfiguration {
 
@@ -57,14 +54,6 @@ public class DomainConfiguration {
 		});
 
 		return sessionFactory;
-	}
-
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
-		p.setIgnoreResourceNotFound(true);
-
-		return p;
 	}
 
 }
