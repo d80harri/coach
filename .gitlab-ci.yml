@@ -1,7 +1,12 @@
-build:
+untested-build:
   script:
-    - ./gradlew build -Pprofile=gitlab
+    - ./gradlew build -Pprofile=gitlab-untested
   artifacts:
     untracked: true
 
+tested-build:
+  script:
+    - ./gradlew build -Prpofile=gitlab-tested
+  artifacts:
+    untracked: true
 

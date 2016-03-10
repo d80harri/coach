@@ -1,0 +1,10 @@
+project.ext.systemProperties = [
+	'db.driverClass'		: 'org.h2.Driver',
+	'db.connectionUrl'		: 'jdbc:h2:~/coach.tested.it;AUTO_SERVER=TRUE',
+	'db.userName'			: 'root',
+	'db.pwd'				: 'passme',
+	'server.port'			: 44001
+] 
+
+project.ext.ignoreIntegrationTestFailures 	= false
+project.ext.ignoreTestFailures 				= false
