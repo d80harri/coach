@@ -6,7 +6,7 @@ untested-build:
 
 tested-build:
   script:
-    - ./gradlew build -Prpofile=gitlab-tested
+    - ./gradlew build -Pprofile=gitlab-tested
   artifacts:
     untracked: true
 
