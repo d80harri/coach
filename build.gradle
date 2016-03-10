@@ -58,6 +58,14 @@ subprojects {
 
     check.dependsOn integrationTest
     integrationTest.mustRunAfter test
+    
+    test{
+	 	ignoreFailures = rootProject.ignoreTestFailures
+	}
+	
+	integrationTest {
+		ignoreFailures = rootProject.ignoreIntegrationTestFailures
+	}
 }
 
 task codeCoverageReport(type: JacocoReport) {
@@ -78,5 +86,7 @@ task codeCoverageReport(type: JacocoReport) {
       csv.enabled false
     }
 }
+
+
 
 
