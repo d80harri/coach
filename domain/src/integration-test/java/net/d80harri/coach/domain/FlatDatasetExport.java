@@ -4,9 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.search.TablesDependencyHelper;
 import org.dbunit.dataset.DataSetException;
@@ -22,24 +19,29 @@ import org.dbunit.util.search.SearchException;
  */
 public class FlatDatasetExport {
 
-	private DataSource datasource;
+	private IDatabaseConnection connection;
 
-	public FlatDatasetExport(DataSource datasource) {
-		this.datasource = datasource;
+	public FlatDatasetExport(IDatabaseConnection connection) {
+		this.connection = connection;
 	}
 
 	public String exportToString(String... rootTables) {
 		try {
-			IDatabaseConnection dbConnection = new DatabaseDataSourceConnection(datasource, "PUBLIC");
-
-			String[] depTableNames = TablesDependencyHelper.getAllDependentTables(dbConnection, rootTables);
-			IDataSet depDataset = dbConnection.createDataSet(depTableNames);
+			IDataSet depDataset = getDataset(rootTables);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			FlatXmlDataSet.write(depDataset, baos);
 			return baos.toString();
-		} catch (SearchException | DataSetException | SQLException | IOException e) {
-			e.printStackTrace();
-			return null;
+		} catch (DataSetException | IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public IDataSet getDataset(String... rootTables) {
+		try {
+			String[] depTableNames = TablesDependencyHelper.getAllDependentTables(connection, rootTables);
+			return connection.createDataSet(depTableNames);
+		} catch (SearchException | DataSetException | SQLException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

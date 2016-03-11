@@ -4,14 +4,9 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
-import org.hibernate.service.jdbc.connections.internal.UserSuppliedConnectionProviderImpl;
-import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
 
 import net.d80harri.coach.domain.exercise.ExerciseRepository;
 import net.d80harri.coach.domain.repository.SessionManager;
@@ -20,7 +15,6 @@ import net.d80harri.coach.domain.repository.TransactionManager;
 public class DomainContext {
 
 	private Flyway flyway = null;
-	private DataSource dataSource = null;
 	private DomainConfiguration configuration;
 	private DBInitializer dbInitializer;
 	private TransactionManager transactionManager;
