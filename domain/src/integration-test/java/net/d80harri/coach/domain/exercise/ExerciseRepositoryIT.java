@@ -5,15 +5,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.assertj.core.groups.Tuple;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
+import net.d80harri.coach.domain.DBInitializationRule;
 import net.d80harri.coach.domain.DomainAssertions;
+import net.d80harri.coach.domain.DomainContext;
+import net.d80harri.coach.domain.DomainContext.DomainConfiguration;
 import net.d80harri.coach.domain.FlatDatasetExport;
 
 public class ExerciseRepositoryIT {
 	private ExerciseRepository target; // TODO: initialize
 	private FlatDatasetExport export;
 
+	@Rule
+	public DBInitializationRule dbRule;
+	
+	@Before
+	public void init() {
+		DomainConfiguration domainConfig = new DomainConfiguration().setConnectionUrl("jdbc:h2:~/coach.domain.it;AUTO_SERVER=TRUE");
+		DomainContext context = new DomainContext(domainConfig);
+		dbRule = new DBInitializationRule(context);
+		target = context.getExerciseRepository();
+	}
+	
 	@Test
 //	@DatabaseSetup(value = "empty.xml", type = DatabaseOperation.DELETE_ALL)
 //	@ExpectedDatabase(table = "EXERCISE", value = "firstAndSecond.xml")
