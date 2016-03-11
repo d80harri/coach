@@ -13,8 +13,6 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.util.search.SearchException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Contains functions to export to a {@link FlatXmlDataSet}.
@@ -22,12 +20,10 @@ import org.springframework.stereotype.Component;
  * @author d80harri
  *
  */
-@Component
 public class FlatDatasetExport {
 
 	private DataSource datasource;
 
-	@Autowired
 	public FlatDatasetExport(DataSource datasource) {
 		this.datasource = datasource;
 	}

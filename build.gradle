@@ -1,9 +1,11 @@
+apply from: 'gradle/profiles/default.gradle'
+
 if (project.hasProperty('profile')) {
 	profile = project.getProperty('profile')
 	print 'applying profile ' + profile
 	apply from: 'gradle/profiles/' + profile + '.gradle'
 } else {
-	throw new GradleException('No profile given. Please specify a profile with -Pprofile=')
+	logger.warn('No profile given. Please specify a profile with -Pprofile=... Will use only default values.')
 }
 
 allprojects {

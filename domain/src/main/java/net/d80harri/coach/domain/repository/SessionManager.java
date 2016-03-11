@@ -6,15 +6,11 @@ import java.util.Stack;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class SessionManager {
 	private SessionFactory sessionFactory;
 	protected ThreadLocal<Stack<SessionHolder>> sessions = new ThreadLocal<>();
 
-	@Autowired
 	public SessionManager(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

@@ -1,0 +1,228 @@
+package net.d80harri.coach.domain;
+
+// TODO: Add unit tests for all classes possible
+// TODO: Some deps should be in scope integrationtTestCompile instead of testCompile. Does not work right now because eclipse does know nothing about integrationTestCompile
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Import;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+
+import net.d80harri.coach.domain.config.db.DBConfiguration;
+import net.d80harri.coach.domain.config.db.FlywayConfiguration;
+import net.d80harri.coach.domain.repository.SessionManager;
+import net.d80harri.coach.domain.repository.TransactionManager;
+
+@Configuration
+@ComponentScan(value = { "net.d80harri.coach.domain" })
+@Import({ DBConfiguration.class, FlywayConfiguration.class })
+public class DomainConfiguration {
+
+	@Bean
+	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+		HibernateTransactionManager txManager = new HibernateTransactionManager();
+		txManager.setSessionFactory(sessionFactory);
+
+		return txManager;
+	}
+
+	@Bean
+	public TransactionManager getTransactionManager(SessionManager sessionManager) {
+		TransactionManager result = new TransactionManager(sessionManager);
+		return result;
+	}
+
+	@Bean
+	@DependsOn("flyway")
+	public LocalSessionFactoryBean sessionFactory(DataSource datasource, HibernateProperties properties) {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(datasource);
+		sessionFactory.setPackagesToScan(new String[] { "net.d80harri.coach.domain.exercise" });
+		sessionFactory.setHibernateProperties(new Properties() {
+			{
+				setProperty("hibernate.hbm2ddl.auto", properties.getHbm2ddlAuto());
+				setProperty("hibernate.dialect", properties.getDialect());
+				setProperty("hibernate.globally_quoted_identifiers", "" + properties.isQuoteIdentifiers());
+			}
+		});
+
+		return sessionFactory;
+	}
+
+}
+
+
+=========================================
+
+package net.d80harri.coach.domain.config.db;
+
+import javax.sql.DataSource;
+
+import org.flywaydb.core.Flyway;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+@Configuration
+@Import({ DBConfiguration.class })
+@ComponentScan(basePackageClasses=FlywayConfiguration.class)
+public class FlywayConfiguration {
+	@Bean
+	public Flyway flyway(DataSource datasource, @Value("${db.migrate.auto:false}") boolean automigrate) {
+		Flyway result = new Flyway();
+		result.setDataSource(datasource);
+		result.setTable("__META__");
+		if (automigrate)
+			result.migrate();
+		return result;
+	}
+	
+	@Bean
+	 public static PropertySourcesPlaceholderConfigurer   propertySourcesPlaceholderConfigurer() {
+	     PropertySourcesPlaceholderConfigurer p =  new PropertySourcesPlaceholderConfigurer();
+	     p.setIgnoreResourceNotFound(true);
+	     p.setProperties(System.getProperties());
+
+	    return p;
+	 }
+	
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(FlywayConfiguration.class);
+		Flyway initBean = ctx.getBean(Flyway.class);
+		initBean.migrate();
+	}
+}
+============================================
+
+package net.d80harri.coach.domain.config.db;
+
+import javax.sql.DataSource;
+
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackageClasses = DBConfiguration.class)
+public class DBConfiguration {
+
+	@Bean
+	public DataSource dataSource(@Value("${db.driverClass}") String driverClass, @Value("${db.connectionUrl}") String connectionUrl, @Value("${db.userName}") String connectionUserName, @Value("${db.pwd}")String connectionPwd) {
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName(driverClass);
+		dataSource.setUrl(connectionUrl);
+		dataSource.setUsername(connectionUserName);
+		dataSource.setPassword(connectionPwd);
+
+		return dataSource;
+	}
+}
+=================================================
+
+package net.d80harri.coach.domain;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class HibernateProperties {
+	private final String hbm2ddlAuto;
+	private final boolean showSql;
+	private final String dialect;
+	private final boolean quoteIdentifiers;
+
+	@Autowired
+	public HibernateProperties(@Value("${hibernate.hbm2ddlAuto:validate}") String hbm2ddlAuto,
+			@Value("${hibernate.showSql:true}") boolean showSql,
+			@Value("${hibernate.dialect:org.hibernate.dialect.H2Dialect}") String dialect,
+			@Value("${hibernate.quoteIdentifiers:false}") boolean quoteIdentifiers) {
+		super();
+		this.hbm2ddlAuto = hbm2ddlAuto;
+		this.showSql = showSql;
+		this.dialect = dialect;
+		this.quoteIdentifiers = quoteIdentifiers;
+	}
+
+	public String getHbm2ddlAuto() {
+		return hbm2ddlAuto;
+	}
+
+	public boolean isShowSql() {
+		return showSql;
+	}
+
+	public String getDialect() {
+		return dialect;
+	}
+
+	public boolean isQuoteIdentifiers() {
+		return quoteIdentifiers;
+	}
+
+}
+=========================================
+
+package net.d80harri.coach.domain;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+@Configuration
+@Import({ DomainConfiguration.class })
+// @PropertySource(ignoreResourceNotFound=false,
+// value="classpath:/domain.properties")
+public class DomainTestConfiguration {
+
+	@Bean
+	public Properties propertiesFromFile() throws IOException {
+		Properties properties = new Properties();
+		InputStream is = this.getClass().getResourceAsStream("/it.properties");
+		if (is != null) {
+			properties.load(is);
+		}
+		return properties;
+	}
+	
+	@Bean
+	public Properties systemProperties() {
+		return System.getProperties();
+	}
+	
+	@Bean
+	public Properties itProperties(@Qualifier("propertiesFromFile") Properties fromFile, @Qualifier("systemProperties") Properties system) {
+		Properties result = new Properties();
+		result.putAll(fromFile);
+		result.putAll(system);
+		return result;
+	}
+
+	@Bean
+	public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(@Qualifier("itProperties") Properties propertiesFromFile) {
+		PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
+
+		p.setProperties(propertiesFromFile);
+		p.setIgnoreResourceNotFound(true);
+		return p;
+	}
+}

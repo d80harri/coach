@@ -10,9 +10,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile "org.springframework:spring-context:4.2.5.RELEASE"
-    compile 'org.springframework:spring-orm:4.2.5.RELEASE'
-
     compile "ma.glasnost.orika:orika-core:1.4.6"
     compile "org.hibernate:hibernate-core:4.1.4.Final"
     compile "com.h2database:h2:1.4.182"
@@ -21,8 +18,6 @@ dependencies {
     
     testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
     testCompile 'org.dbunit:dbunit:2.5.1'
-    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.0'
-        
 }
 
 task setUpDbForIT(type: JavaExec) {
