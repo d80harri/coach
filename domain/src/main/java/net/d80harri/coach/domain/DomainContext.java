@@ -66,14 +66,14 @@ public class DomainContext {
 		return this.transactionManager;
 	}
 
-	private SessionManager getSessionManager() {
+	public SessionManager getSessionManager() {
 		if (this.sessionManager == null) {
 			initSessionManager();
 		}
 		return this.sessionManager;
 	}
 	
-	private SessionFactory getSessionFactory() {
+	public SessionFactory getSessionFactory() {
 		if (this.sessionFactory == null) {
 			initSessionFactory();
 		}

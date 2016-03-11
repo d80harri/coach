@@ -5,6 +5,7 @@ import java.io.Closeable;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.jdbc.Work;
 
 public class SessionHolder implements Closeable {
 	private Session session;
@@ -39,6 +40,10 @@ public class SessionHolder implements Closeable {
 	public <T> T getByID(Class<T> type, String id) {
 		return (T)session.get(type, id);
 	}
+	
+	public void doWork(Work work) {
+		session.doWork(work);
+	}
 
 	public int getAttachedCount() {
 		return references;
@@ -47,7 +52,7 @@ public class SessionHolder implements Closeable {
 	public Transaction beginTransaction() {
 		return this.session.beginTransaction();
 	}
-
+	
 	public Session getSession() {
 		return this.session;
 	}
