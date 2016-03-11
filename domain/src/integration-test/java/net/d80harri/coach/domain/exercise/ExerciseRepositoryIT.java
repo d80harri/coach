@@ -21,7 +21,7 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import net.d80harri.coach.domain.DomainAssertions;
 import net.d80harri.coach.domain.DomainTestConfiguration;
 import net.d80harri.coach.domain.FlatDatasetExport;
-
+// TODO: get rid of spring dependency in domain
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DomainTestConfiguration.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class })
