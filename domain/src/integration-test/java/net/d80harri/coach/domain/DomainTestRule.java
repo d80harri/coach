@@ -28,21 +28,20 @@ import net.d80harri.coach.domain.repository.SessionHolder;
 
 public class DomainTestRule implements TestRule {
 	private static final Logger logger = LoggerFactory.getLogger(DomainTestRule.class);
-	private DomainContext context;
+	private InitStatement innerStatement;
 
 	public DomainTestRule() {
-		DomainConfiguration domainConfig = new DomainConfiguration()
-				.setConnectionUrl("jdbc:h2:~/coach.domain.it;AUTO_SERVER=TRUE");
-		context = new DomainContext(domainConfig);
+		
 	}
 
 	public DomainContext getContext() {
-		return context;
+		return innerStatement.getContext();
 	}
 
 	@Override
 	public Statement apply(Statement base, Description description) {
-		return new InitStatement(base, context, description);
+		innerStatement = new InitStatement(base, description);
+		return innerStatement;
 	}
 
 	private static class InitStatement extends Statement {
@@ -50,10 +49,17 @@ public class DomainTestRule implements TestRule {
 		private final DomainContext context;
 		private final Description description;
 
-		public InitStatement(Statement base, DomainContext context, Description description) {
+		public InitStatement(Statement base, Description description) {
+			DomainConfiguration domainConfig = new DomainConfiguration()
+					.setConnectionUrl("jdbc:h2:./tmp/testdb/"+ description.getClassName().replace(".", "/") + "/" + description.getMethodName());
+			
 			this.base = base;
-			this.context = context;
+			this.context = new DomainContext(domainConfig);
 			this.description = description;
+		}
+		
+		public DomainContext getContext() {
+			return context;
 		}
 
 		@Override
@@ -128,16 +134,13 @@ public class DomainTestRule implements TestRule {
 		}
 
 		private void insertTestdata(DatabaseSetup annotation) {
+			context.getDbInitializer().cleanMigrate();
 			doWithConnection(c -> {
 				try {
 					IDataSet dataSet = new FlatXmlDataSetBuilder()
 							.build(description.getTestClass().getResource(annotation.value()));
 
-					CompositeOperation compositeOperation = new CompositeOperation(unwrap(annotation.operations()));
-					// compositeOperation.execute(c, dataSet);
-					for (Operation op : annotation.operations()) {
-						op.operation.execute(c, dataSet);
-					}
+					DatabaseOperation.INSERT.execute(c, dataSet);
 				} catch (DatabaseUnitException e) {
 					throw new RuntimeException(e);
 				}
