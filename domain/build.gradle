@@ -20,14 +20,6 @@ dependencies {
     testCompile 'org.dbunit:dbunit:2.5.1'
 }
 
-task setUpDbForIT(type: JavaExec) {
-	classpath sourceSets.integrationTest.runtimeClasspath
-    main = 'net.d80harri.coach.domain.config.db.FlywayConfiguration'
-    systemProperties = rootProject.systemProperties
-}
-
-integrationTest.dependsOn setUpDbForIT
-
 sourceSets {
     main {
        output.resourcesDir = "build/classes/main"
