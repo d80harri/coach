@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+dependencies {
+    compile project(":domain:domain-intf")
+    compile "org.assertj:assertj-core:3.3.0"
+	compile "org.mockito:mockito-all:1.9.5"
+    compile "junit:junit:4.12"
+	compile "com.googlecode.junit-toolbox:junit-toolbox:2.2"
+}
