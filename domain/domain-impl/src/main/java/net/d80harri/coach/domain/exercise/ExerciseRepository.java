@@ -2,35 +2,48 @@ package net.d80harri.coach.domain.exercise;
 
 import java.util.List;
 
+import net.d80harri.coach.domain.repository.ISessionHolder;
+import net.d80harri.coach.domain.repository.ISessionManager;
+import net.d80harri.coach.domain.repository.ITransactionHolder;
+import net.d80harri.coach.domain.repository.ITransactionManager;
 import net.d80harri.coach.domain.repository.SessionHolder;
-import net.d80harri.coach.domain.repository.SessionManager;
-import net.d80harri.coach.domain.repository.TransactionHolder;
-import net.d80harri.coach.domain.repository.TransactionManager;
 
-public class ExerciseRepository {
-	private SessionManager sessionManager;
-	private TransactionManager transactionManager;
+public class ExerciseRepository implements IExerciseRepository {
+	private ISessionManager sessionManager;
+	private ITransactionManager transactionManager;
 
-	public ExerciseRepository(SessionManager sessionManager, TransactionManager transactionManager) {
+	public ExerciseRepository(ISessionManager sessionManager, ITransactionManager transactionManager) {
 		this.sessionManager = sessionManager;
 		this.transactionManager = transactionManager;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.exercise.IExerciseRepository#getAll()
+	 */
+	@Override
 	public List<Exercise> getAll() {
-		try (SessionHolder session = sessionManager.getOrCreateSession()) {
+		try (ISessionHolder session = sessionManager.getOrCreateSession()) {
 			return (List<Exercise>) session.createQuery("FROM Exercise").list();
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.exercise.IExerciseRepository#getByID(java.lang.String)
+	 */
+	@Override
 	public Exercise getByID(String id) {
-		try(SessionHolder session = sessionManager.getOrCreateSession()) {
+		try(ISessionHolder session = sessionManager.getOrCreateSession()) {
 			return session.getByID(Exercise.class, id);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.exercise.IExerciseRepository#saveOrUpdate(net.d80harri.coach.domain.exercise.Exercise)
+	 */
+	@Override
 	public void saveOrUpdate(Exercise exercise) {
-		try (SessionHolder session = sessionManager.getOrCreateSession()) {
-			try (TransactionHolder tx = transactionManager.beginOrGet()) {
+		try (ISessionHolder session = sessionManager.getOrCreateSession()) {
+			try (ITransactionHolder tx = transactionManager.beginOrGet()) {
 				session.saveOrUpdate(exercise);
 			}
 		}

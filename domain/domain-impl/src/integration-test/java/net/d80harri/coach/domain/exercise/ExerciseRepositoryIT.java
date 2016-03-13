@@ -16,7 +16,7 @@ import net.d80harri.coach.domain.DomainTestRule.DatabaseSetup;
 import net.d80harri.coach.domain.DomainTestRule.ExpectedDatabase;
 
 public class ExerciseRepositoryIT {
-	private ExerciseRepository target; 
+	private IExerciseRepository target; 
 
 	@Rule
 	public DomainTestRule dbRule = new DomainTestRule();

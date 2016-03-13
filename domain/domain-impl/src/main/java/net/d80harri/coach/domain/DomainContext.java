@@ -7,24 +7,31 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import net.d80harri.coach.domain.exercise.ExerciseRepository;
+import net.d80harri.coach.domain.exercise.IExerciseRepository;
+import net.d80harri.coach.domain.repository.ISessionManager;
+import net.d80harri.coach.domain.repository.ITransactionManager;
 import net.d80harri.coach.domain.repository.SessionManager;
 import net.d80harri.coach.domain.repository.TransactionManager;
 
-public class DomainContext {
+public class DomainContext implements IDomainContext {
 
 	private Flyway flyway = null;
 	private DomainConfiguration configuration;
-	private DBInitializer dbInitializer;
-	private TransactionManager transactionManager;
-	private SessionManager sessionManager;
+	private ITransactionManager transactionManager;
+	private ISessionManager sessionManager;
 	private SessionFactory sessionFactory;
 	
-	private ExerciseRepository exerciseRepository;
+	private IExerciseRepository exerciseRepository;
+	private IDbInitializer dbInitializer;
 
 	public DomainContext(DomainConfiguration configuration) {
 		this.configuration = configuration;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.IDomainContext#getFlyway()
+	 */
+	@Override
 	public Flyway getFlyway() {
 		if (flyway == null) {
 			initFlyway();
@@ -36,40 +43,64 @@ public class DomainContext {
 		return configuration;
 	}
 	
-
-	public DBInitializer getDbInitializer() {
-		if (this.dbInitializer == null) {
-			initDbInitializer();
-		}
-		return this.dbInitializer;
-	}
-	
-	public ExerciseRepository getExerciseRepository() {
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.IDomainContext#getExerciseRepository()
+	 */
+	@Override
+	public IExerciseRepository getExerciseRepository() {
 		if (this.exerciseRepository == null) {
 			initExerciseRepository();
 		}
 		return this.exerciseRepository;
 	}
 
-	public TransactionManager getTransactionManager() {
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.IDomainContext#getTransactionManager()
+	 */
+	@Override
+	public ITransactionManager getTransactionManager() {
 		if (this.transactionManager == null) {
 			initTransactionManager();
 		}
 		return this.transactionManager;
 	}
 
-	public SessionManager getSessionManager() {
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.IDomainContext#getSessionManager()
+	 */
+	@Override
+	public ISessionManager getSessionManager() {
 		if (this.sessionManager == null) {
 			initSessionManager();
 		}
 		return this.sessionManager;
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.IDomainContext#getDbInitializer
+	 */
+	@Override
+	public IDbInitializer getDbInitializer() {
+		if (this.dbInitializer == null) {
+			initDbInitializer();
+		}
+		return this.dbInitializer;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.IDomainContext#getSessionFactory()
+	 */
+	@Override
 	public SessionFactory getSessionFactory() {
 		if (this.sessionFactory == null) {
 			initSessionFactory();
 		}
 		return this.sessionFactory;
+	}
+	
+	
+	private void initDbInitializer() {
+		this.dbInitializer = new DBInitializer(getFlyway());
 	}
 	
 	private void initSessionFactory() {
@@ -102,10 +133,6 @@ public class DomainContext {
 	
 	private void initExerciseRepository() {
 		this.exerciseRepository = new ExerciseRepository(getSessionManager(), getTransactionManager());
-	}
-
-	private void initDbInitializer() {
-		this.dbInitializer = new DBInitializer(getFlyway());
 	}
 
 	private void initFlyway() {

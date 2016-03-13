@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.d80harri.coach.domain.DomainContext.DomainConfiguration;
-import net.d80harri.coach.domain.repository.SessionHolder;
+import net.d80harri.coach.domain.repository.ISessionHolder;
 
 public class DomainTestRule implements TestRule {
 	private static final Logger logger = LoggerFactory.getLogger(DomainTestRule.class);
@@ -34,7 +34,7 @@ public class DomainTestRule implements TestRule {
 		
 	}
 
-	public DomainContext getContext() {
+	public IDomainContext getContext() {
 		return innerStatement.getContext();
 	}
 
@@ -46,7 +46,7 @@ public class DomainTestRule implements TestRule {
 
 	private static class InitStatement extends Statement {
 		private final Statement base;
-		private final DomainContext context;
+		private final IDomainContext context;
 		private final Description description;
 
 		public InitStatement(Statement base, Description description) {
@@ -58,7 +58,7 @@ public class DomainTestRule implements TestRule {
 			this.description = description;
 		}
 		
-		public DomainContext getContext() {
+		public IDomainContext getContext() {
 			return context;
 		}
 
@@ -79,7 +79,7 @@ public class DomainTestRule implements TestRule {
 		}
 
 		private void doWithConnection(ConnectionConsumer consumer) {
-			try (SessionHolder sh = context.getSessionManager().getOrCreateSession()) {
+			try (ISessionHolder sh = context.getSessionManager().getOrCreateSession()) {
 				sh.doWork(c -> {
 					IDatabaseConnection connection;
 					try {

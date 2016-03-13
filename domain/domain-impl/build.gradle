@@ -10,7 +10,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    //compile project(":domain-interfaces")
+    compile project(":domain:domain-intf")
 
     compile "ma.glasnost.orika:orika-core:1.4.6"
     compile "org.hibernate:hibernate-core:4.1.4.Final"

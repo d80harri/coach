@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class SessionManager {
+public class SessionManager implements ISessionManager {
 	private SessionFactory sessionFactory;
 	protected ThreadLocal<Stack<SessionHolder>> sessions = new ThreadLocal<>();
 
@@ -15,6 +15,10 @@ public class SessionManager {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ISessionManager#getOrCreateSession()
+	 */
+	@Override
 	public SessionHolder getOrCreateSession() {
 		SessionHolder result = null;
 
@@ -30,11 +34,19 @@ public class SessionManager {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ISessionManager#createTransaction()
+	 */
+	@Override
 	public Transaction createTransaction() {
 		return getCurrentSession().beginTransaction();
 	}
 
-	public SessionHolder getCurrentSession() {
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ISessionManager#getCurrentSession()
+	 */
+	@Override
+	public ISessionHolder getCurrentSession() {
 		return getSessions().peek();
 	}
 
@@ -47,8 +59,12 @@ public class SessionManager {
 		return stack;
 	}
 
-	public void close(SessionHolder sessionHolder) {
-		SessionHolder topHolder = getSessions().pop();
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ISessionManager#close(net.d80harri.coach.domain.repository.SessionHolder)
+	 */
+	@Override
+	public void close(ISessionHolder sessionHolder) {
+		ISessionHolder topHolder = getSessions().pop();
 		if (topHolder != sessionHolder)
 			throw new IllegalSelectorException();
 		

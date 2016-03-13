@@ -5,17 +5,21 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TransactionManager {
+public class TransactionManager implements ITransactionManager {
 	private Logger logger = LoggerFactory.getLogger(TransactionManager.class);
 	
-	private SessionManager sessionManager;
+	private ISessionManager sessionManager;
 	private ThreadLocal<Stack<TransactionHolder>> transactions = new ThreadLocal<>();
 
-	public TransactionManager(SessionManager sessionManager) {
+	public TransactionManager(ISessionManager sessionManager) {
 		this.sessionManager = sessionManager;
 	}
 
-	public TransactionHolder beginOrGet() {
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ITransactionManager#beginOrGet()
+	 */
+	@Override
+	public ITransactionHolder beginOrGet() {
 		logger.debug("Begin transaction");
 		TransactionHolder currentTransaction = getCurrentTransaction();
 		if (currentTransaction == null) {
@@ -26,6 +30,10 @@ public class TransactionManager {
 		return currentTransaction;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ITransactionManager#getCurrentTransaction()
+	 */
+	@Override
 	public TransactionHolder getCurrentTransaction() {
 		TransactionHolder result;
 		if (getTransactions().isEmpty()) {
@@ -45,8 +53,12 @@ public class TransactionManager {
 		return result;
 	}
 
-	public void commitTransaction(TransactionHolder transactionHolder) {
-		TransactionHolder nextHolder = getTransactions().pop();
+	/* (non-Javadoc)
+	 * @see net.d80harri.coach.domain.repository.ITransactionManager#commitTransaction(net.d80harri.coach.domain.repository.TransactionHolder)
+	 */
+	@Override
+	public void commitTransaction(ITransactionHolder transactionHolder) {
+		ITransactionHolder nextHolder = getTransactions().pop();
 		if (nextHolder != transactionHolder) {
 			throw new IllegalStateException();
 		}
