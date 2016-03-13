@@ -2,8 +2,6 @@ package net.d80harri.coach.domain;
 
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
