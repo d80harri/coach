@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.spring.boot.KatharsisConfigV2;
-import net.d80harri.coach.domain.DomainConfiguration;
 
 @Configuration
 @RestController
 @SpringBootApplication
 @ComponentScan(value={"net.d80harri.coach.rest"})
-@Import({KatharsisConfigV2.class, DomainConfiguration.class})
+@Import({KatharsisConfigV2.class})
 public class Application {
 	@Autowired
     private ResourceRegistry resourceRegistry;

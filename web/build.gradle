@@ -39,6 +39,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('io.katharsis:katharsis-spring:2.3.0')
     compile('org.reflections:reflections:0.9.10')
+    compile "ma.glasnost.orika:orika-core:1.4.6"
     
     // end::actuator[]
     testCompile('junit:junit')

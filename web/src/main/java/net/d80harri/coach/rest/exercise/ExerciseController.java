@@ -11,18 +11,18 @@ import io.katharsis.repository.annotations.JsonApiFindAll;
 import io.katharsis.repository.annotations.JsonApiResourceRepository;
 import io.katharsis.repository.annotations.JsonApiSave;
 import net.d80harri.coach.domain.exercise.Exercise;
-import net.d80harri.coach.domain.exercise.ExerciseRepository;
+import net.d80harri.coach.domain.exercise.IExerciseRepository;
 import net.d80harri.coach.rest.RestCoachMapper;
 
 @JsonApiResourceRepository(ExerciseDto.class)
 @Service
 public class ExerciseController {
 
-	private final ExerciseRepository exerciseRepository;
+	private final IExerciseRepository exerciseRepository;
 	private final RestCoachMapper mapper;
 	
     @Autowired @Lazy
-    public ExerciseController(ExerciseRepository exerciseRepository, RestCoachMapper mapper) {
+    public ExerciseController(IExerciseRepository exerciseRepository, RestCoachMapper mapper) {
         this.exerciseRepository = exerciseRepository;
         this.mapper = mapper;
     }
