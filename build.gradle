@@ -85,9 +85,15 @@ task codeCoverageReport(type: JacocoReport) {
 }
 
 task testReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/allTests")
+    destinationDir = file("$buildDir/reports/tests")
     // Include the results from the `test` task in all subprojects
     reportOn subprojects*.test
+}
+
+task integrationTestReport(type: TestReport) {
+	    destinationDir = file("$buildDir/reports/it")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.integrationTest
 }
 
 
