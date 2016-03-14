@@ -1,1 +1,1 @@
-include 'web', 'domain:domain-impl', 'domain:domain-intf', 'domain:domain-test-utils'
+include 'web', 'domain:domain-core-impl', 'domain:domain-core-intf', 'domain:domain-impl', 'domain:domain-intf', 'domain:domain-test-utils'

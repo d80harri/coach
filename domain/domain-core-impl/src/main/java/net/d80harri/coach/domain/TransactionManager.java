@@ -1,9 +1,13 @@
-package net.d80harri.coach.domain.repository;
+package net.d80harri.coach.domain;
 
 import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.d80harri.coach.domain.repository.ISessionManager;
+import net.d80harri.coach.domain.repository.ITransactionHolder;
+import net.d80harri.coach.domain.repository.ITransactionManager;
 
 public class TransactionManager implements ITransactionManager {
 	private Logger logger = LoggerFactory.getLogger(TransactionManager.class);

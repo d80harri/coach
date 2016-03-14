@@ -1,4 +1,4 @@
-package net.d80harri.coach.domain.repository;
+package net.d80harri.coach.domain;
 
 import java.nio.channels.IllegalSelectorException;
 import java.util.Stack;
@@ -6,6 +6,9 @@ import java.util.Stack;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import net.d80harri.coach.domain.repository.ISessionHolder;
+import net.d80harri.coach.domain.repository.ISessionManager;
 
 public class SessionManager implements ISessionManager {
 	private SessionFactory sessionFactory;

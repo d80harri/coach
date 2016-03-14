@@ -6,7 +6,6 @@ import net.d80harri.coach.domain.repository.ISessionHolder;
 import net.d80harri.coach.domain.repository.ISessionManager;
 import net.d80harri.coach.domain.repository.ITransactionHolder;
 import net.d80harri.coach.domain.repository.ITransactionManager;
-import net.d80harri.coach.domain.repository.SessionHolder;
 
 public class ExerciseRepository implements IExerciseRepository {
 	private ISessionManager sessionManager;

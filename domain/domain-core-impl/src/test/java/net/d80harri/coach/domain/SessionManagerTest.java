@@ -1,10 +1,13 @@
-package net.d80harri.coach.domain.repository;
+package net.d80harri.coach.domain;
 
 import org.assertj.core.api.Assertions;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import net.d80harri.coach.domain.SessionHolder;
+import net.d80harri.coach.domain.SessionManager;
 
 public class SessionManagerTest {
 	private SessionManager target;

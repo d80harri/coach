@@ -1,6 +1,9 @@
-package net.d80harri.coach.domain.repository;
+package net.d80harri.coach.domain;
 
 import org.hibernate.Transaction;
+
+import net.d80harri.coach.domain.repository.ITransactionHolder;
+import net.d80harri.coach.domain.repository.ITransactionManager;
 
 public class TransactionHolder implements ITransactionHolder {
 	private Transaction transaction;

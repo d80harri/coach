@@ -1,4 +1,4 @@
-package net.d80harri.coach.domain;
+package net.d80harri.coach.domain.repository;
 
 public interface IDbInitializer {
 

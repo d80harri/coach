@@ -15,7 +15,6 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.CompositeOperation;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -23,7 +22,8 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.d80harri.coach.domain.DomainContext.DomainConfiguration;
+import net.d80harri.coach.domain.DomainCoreContext.DomainConfiguration;
+import net.d80harri.coach.domain.repository.IDomainCoreContext;
 import net.d80harri.coach.domain.repository.ISessionHolder;
 
 public class DomainTestRule implements TestRule {
@@ -34,7 +34,7 @@ public class DomainTestRule implements TestRule {
 		
 	}
 
-	public IDomainContext getContext() {
+	public IDomainCoreContext getContext() {
 		return innerStatement.getContext();
 	}
 
@@ -46,7 +46,7 @@ public class DomainTestRule implements TestRule {
 
 	private static class InitStatement extends Statement {
 		private final Statement base;
-		private final IDomainContext context;
+		private final IDomainCoreContext context;
 		private final Description description;
 
 		public InitStatement(Statement base, Description description) {
@@ -54,11 +54,11 @@ public class DomainTestRule implements TestRule {
 					.setConnectionUrl("jdbc:h2:./tmp/testdb/"+ description.getClassName().replace(".", "/") + "/" + description.getMethodName());
 			
 			this.base = base;
-			this.context = new DomainContext(domainConfig);
+			this.context = new DomainCoreContext(domainConfig);
 			this.description = description;
 		}
 		
-		public IDomainContext getContext() {
+		public IDomainCoreContext getContext() {
 			return context;
 		}
 

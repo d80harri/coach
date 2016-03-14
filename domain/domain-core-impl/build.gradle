@@ -10,12 +10,12 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile project(':domain:domain-intf')
-	compile project(':domain:domain-core-intf')
-    compile 'ma.glasnost.orika:orika-core:1.4.6'
+    compile project(':domain:domain-core-intf')
+    compile 'org.slf4j:slf4j-simple:1.7.18'
     
-    testCompile 'com.h2database:h2:1.4.182'
-    testCompile project(':domain:domain-test-utils')
+    testCompile 'org.assertj:assertj-core:3.3.0'
+    testCompile 'org.mockito:mockito-all:1.9.5'
+    testCompile 'junit:junit:4.12'
 }
 
 sourceSets {

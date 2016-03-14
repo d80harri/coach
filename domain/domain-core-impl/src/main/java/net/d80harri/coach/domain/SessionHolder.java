@@ -1,9 +1,12 @@
-package net.d80harri.coach.domain.repository;
+package net.d80harri.coach.domain;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
+
+import net.d80harri.coach.domain.repository.ISessionHolder;
+import net.d80harri.coach.domain.repository.ISessionManager;
 
 public class SessionHolder implements ISessionHolder {
 	private Session session;

@@ -23,7 +23,7 @@ public class ExerciseRepositoryIT {
 
 	@Before
 	public void init() {
-		target = dbRule.getContext().getExerciseRepository();
+		target = new ExerciseRepository(dbRule.getContext().getSessionManager(), dbRule.getContext().getTransactionManager());
 	}
 
 	@Test
