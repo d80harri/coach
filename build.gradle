@@ -56,12 +56,10 @@ subprojects {
     
     test{
 	 	ignoreFailures = rootProject.ignoreTestFailures
-	 	reports.html.enabled = false
 	}
 	
 	integrationTest {
 		ignoreFailures = rootProject.ignoreIntegrationTestFailures
-		reports.html.enabled = false
 	}
 }
 
@@ -82,18 +80,6 @@ task codeCoverageReport(type: JacocoReport) {
       html.destination "${buildDir}/reports/jacoco"
       csv.enabled false
     }
-}
-
-task testReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/tests")
-    // Include the results from the `test` task in all subprojects
-    reportOn subprojects*.test
-}
-
-task integrationTestReport(type: TestReport) {
-	    destinationDir = file("$buildDir/reports/it")
-    // Include the results from the `test` task in all subprojects
-    reportOn subprojects*.integrationTest
 }
 
 
