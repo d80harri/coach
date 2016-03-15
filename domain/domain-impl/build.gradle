@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+	compile project(':domain:domain-intf')
+	compile(project(':domain-core:domain-core-impl'))
+    compile 'ma.glasnost.orika:orika-core:1.4.6'
+    
+    testCompile project(':domain:domain-test')
+    testCompile 'com.h2database:h2:1.4.182'
+}
