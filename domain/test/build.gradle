@@ -2,8 +2,9 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 dependencies {
-    compile project(':domain:domain-intf')
-    compile project(':domain:domain-core-impl')
+    compile project(':domain-core:test')
+    compile project(':domain:intf')
+    
 	compile 'org.dbunit:dbunit:2.5.1'
 	compile 'org.assertj:assertj-core:3.3.0'
 }
