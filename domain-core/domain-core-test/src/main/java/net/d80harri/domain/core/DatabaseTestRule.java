@@ -43,7 +43,7 @@ public class DatabaseTestRule implements TestRule {
 	@Override
 	public Statement apply(Statement base, Description description) {
 		DomainCoreConfiguration config = new DomainCoreConfiguration();
-		config.setConnectionUrl("jdbc:h2:.testdbs/"+ description.getClassName().replace(".", "/") + "/" +description.getMethodName()+";AUTO_SERVER=TRUE");
+		config.setConnectionUrl("jdbc:h2:./testdbs/"+ description.getClassName().replace(".", "/") + "/" +description.getMethodName()+";AUTO_SERVER=TRUE");
 		
 		currentContext = contextFactory.apply(config);
 		

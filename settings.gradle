@@ -1,1 +1,2 @@
-include 'domain-core:domain-core-impl', 'domain-core:domain-core-spring', 'domain-core:domain-core-intf', 'domain-core:domain-core-test', 'web', 'domain:domain-impl', 'domain:domain-spring', 'domain:domain-intf', 'domain:domain-test'
+include 'domain-core:domain-core-impl', 'domain-core:domain-core-spring', 'domain-core:domain-core-intf', 'domain-core:domain-core-test', 'domain:domain-impl', 'domain:domain-spring', 'domain:domain-intf', 'domain:domain-test', 
+'rest:rest-impl', 'rest:rest-spring', 'rest:rest-intf', 'rest:rest-test'
