@@ -11,7 +11,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile 'org.flywaydb:flyway-core:4.0'
-    compile "org.hibernate:hibernate-core:4.1.4.Final"
+    compile "org.hibernate:hibernate-core:5.1.0.Final"
 }
 
 

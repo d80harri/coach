@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,8 @@ import io.katharsis.spring.boot.KatharsisConfigV2;
 @RestController
 @SpringBootApplication
 @ComponentScan(value={"net.d80harri.coach.rest"})
-@Import({KatharsisConfigV2.class})
+@Import({KatharsisConfigV2.class, CoachRestConfig.class})
+@ImportResource("classpath:rest.application-ctx.xml")
 public class Application {
 	@Autowired
     private ResourceRegistry resourceRegistry;

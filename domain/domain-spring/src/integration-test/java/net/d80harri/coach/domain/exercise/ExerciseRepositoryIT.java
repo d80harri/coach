@@ -5,28 +5,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.assertj.core.groups.Tuple;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import net.d80harri.coach.domain.DomainAssertions;
-import net.d80harri.coach.domain.DomainCoreContext;
 import net.d80harri.domain.core.DatabaseTestRule;
 import net.d80harri.domain.core.DatabaseTestRule.DBStateLogging;
 import net.d80harri.domain.core.DatabaseTestRule.DatabaseSetup;
 import net.d80harri.domain.core.DatabaseTestRule.ExpectedDatabase;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:domain.it.application-ctx.xml"})
 public class ExerciseRepositoryIT {
+	@Autowired
 	private IExerciseRepository target; 
  
 	@Rule
-	public DatabaseTestRule dbRule = new DatabaseTestRule(i -> new DomainCoreContext(i)); 
-	// TODO: DomainTestRule that contains a databaseTestRule
-	
-	@Before
-	public void init() {
-		target = new ExerciseRepository(dbRule.getCurrentContext().getSessionManager(), dbRule.getCurrentContext().getTransactionManager());
-	}
+	@Autowired
+	public DatabaseTestRule dbRule;	
 
 	@Test
 	@DatabaseSetup(value="empty.xml") 

@@ -4,4 +4,18 @@ apply plugin: 'eclipse'
 dependencies {
 	compile project(':domain-core:domain-core-spring')
     compile project(':domain:domain-impl')
+
+	testCompile project(':domain:domain-test')    
+    testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
 }

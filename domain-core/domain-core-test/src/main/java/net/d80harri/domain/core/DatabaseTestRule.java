@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.dbunit.Assertion;
 import org.dbunit.DatabaseUnitException;
@@ -23,42 +22,36 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.d80harri.coach.domain.repository.DomainCoreConfiguration;
-import net.d80harri.coach.domain.repository.IDomainCoreContext;
+import net.d80harri.coach.domain.repository.IDbInitializer;
 import net.d80harri.coach.domain.repository.ISessionHolder;
+import net.d80harri.coach.domain.repository.ISessionManager;
 
 public class DatabaseTestRule implements TestRule {
 	private static final Logger logger = LoggerFactory.getLogger(DatabaseTestRule.class);
-	private final Function<DomainCoreConfiguration, IDomainCoreContext> contextFactory;
-	private IDomainCoreContext currentContext;
+	private final ISessionManager sessionManager;
+	private final IDbInitializer dbInitializer;
 	
-	public DatabaseTestRule(Function<DomainCoreConfiguration, IDomainCoreContext> contextFactory) {
-		this.contextFactory = contextFactory;
-	}
-	
-	public IDomainCoreContext getCurrentContext() {
-		return currentContext;
+	public DatabaseTestRule(ISessionManager manager, IDbInitializer initializer) {
+		this.dbInitializer = initializer;
+		this.sessionManager = manager;
 	}
 
 	@Override
 	public Statement apply(Statement base, Description description) {
-		DomainCoreConfiguration config = new DomainCoreConfiguration();
-		config.setConnectionUrl("jdbc:h2:./testdbs/"+ description.getClassName().replace(".", "/") + "/" +description.getMethodName()+";AUTO_SERVER=TRUE");
-		
-		currentContext = contextFactory.apply(config);
-		
-		return new InitStatement(base, description, currentContext);
+		return new InitStatement(base, description, sessionManager, dbInitializer);
 	}
 
 	private static class InitStatement extends Statement {
 		private final Statement base;
-		private final IDomainCoreContext context;
 		private final Description description;
+		private final ISessionManager sessionManager;
+		private final IDbInitializer dbInitializer;
 
-		public InitStatement(Statement base, Description description, IDomainCoreContext context) {
+		public InitStatement(Statement base, Description description, ISessionManager sessionManager, IDbInitializer dbInitializer) {
 			this.base = base;
-			this.context = context;
 			this.description = description;
+			this.sessionManager = sessionManager;
+			this.dbInitializer = dbInitializer;
 		}
 
 		@Override
@@ -78,7 +71,7 @@ public class DatabaseTestRule implements TestRule {
 		}
 
 		private void doWithConnection(ConnectionConsumer consumer) {
-			try (ISessionHolder sh = context.getSessionManager().getOrCreateSession()) {
+			try (ISessionHolder sh = sessionManager.getOrCreateSession()) {
 				sh.doWork(c -> {
 					IDatabaseConnection connection;
 					try {
@@ -123,7 +116,7 @@ public class DatabaseTestRule implements TestRule {
 		}
 
 		private void insertTestdata(DatabaseSetup annotation) {
-			context.getDbInitializer().cleanMigrate();
+			dbInitializer.cleanMigrate();
 			doWithConnection(c -> {
 				try {
 					IDataSet dataSet = new FlatXmlDataSetBuilder()

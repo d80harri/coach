@@ -26,7 +26,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile project(':domain:domain-intf')
+    compile project(':domain:domain-spring')
+    //compile project(':domain-core:domain-core-impl')
 	compile project(':rest:rest-intf')
 	
     // tag::jetty[]
@@ -37,6 +38,8 @@ dependencies {
     // end::jetty[]
     // tag::actuator[]
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile ('org.springframework:spring-orm:4.2.5.RELEASE')
+    
     compile('io.katharsis:katharsis-spring:2.3.0')
     compile('org.reflections:reflections:0.9.10')
     compile "ma.glasnost.orika:orika-core:1.4.6"

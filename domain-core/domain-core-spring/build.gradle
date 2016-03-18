@@ -11,5 +11,8 @@ targetCompatibility = 1.8
 
 dependencies {
     compile project(':domain-core:domain-core-impl')
+    compile 'org.springframework:spring-context:4.2.5.RELEASE'
+    compile 'org.springframework:spring-orm:4.2.5.RELEASE'
+    
 }
 
