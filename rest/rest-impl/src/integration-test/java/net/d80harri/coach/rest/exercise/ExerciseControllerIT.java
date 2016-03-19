@@ -21,7 +21,7 @@ import net.d80harri.coach.rest.Application;
 @IntegrationTest("server.port:0")
 public class ExerciseControllerIT {
 
-	@Value("${local.server.port}")
+	@Value("${server.port}")
 	private int serverPort;
 
 	@Before

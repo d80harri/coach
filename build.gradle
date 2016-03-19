@@ -15,6 +15,12 @@ allprojects {
 	repositories {
         mavenCentral()
     }
+    
+    ext {
+		libaries = [
+			'hibernate-core':[group:'org.hibernate', name:'hibernate-core', version:'4.3.11.Final']
+		]
+	}
 }
 
 subprojects {
@@ -61,6 +67,7 @@ subprojects {
 	integrationTest {
 		ignoreFailures = rootProject.ignoreIntegrationTestFailures
 	}
+	
 }
 
 task codeCoverageReport(type: JacocoReport) {
