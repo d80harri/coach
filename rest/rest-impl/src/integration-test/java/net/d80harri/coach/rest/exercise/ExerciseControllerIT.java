@@ -3,26 +3,31 @@ package net.d80harri.coach.rest.exercise;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.jayway.restassured.RestAssured;
 
 import net.d80harri.coach.rest.Application;
+import net.d80harri.domain.core.DatabaseTestRule;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest("server.port:0")
+@WebIntegrationTest("server.port:0")
 public class ExerciseControllerIT {
 
-	@Value("${server.port}")
+	@Value("${local.server.port}")
 	private int serverPort;
+	
+	@Autowired
+	@Rule
+	public DatabaseTestRule dbTestRule;
 
 	@Before
 	public void setUp() {

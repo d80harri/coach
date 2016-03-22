@@ -71,7 +71,7 @@ public class SessionManager implements ISessionManager {
 		if (topHolder != sessionHolder)
 			throw new IllegalSelectorException();
 		
-		topHolder.getSession().close();
+		topHolder.getSession().disconnect();
 	}
 
 }
