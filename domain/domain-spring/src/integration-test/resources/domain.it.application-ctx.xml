@@ -11,6 +11,16 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<import resource="classpath:domain.application-ctx.xml" />
 
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:it.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean class="net.d80harri.domain.core.DatabaseTestRule">
 		<constructor-arg ref="sessionManager" />
 		<constructor-arg ref="dbInitializer" />

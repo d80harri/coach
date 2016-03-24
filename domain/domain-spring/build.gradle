@@ -7,6 +7,7 @@ dependencies {
 
 	testCompile project(':domain:domain-test')    
     testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
+    testCompile 'com.h2database:h2:1.4.191'
 }
 
 sourceSets {

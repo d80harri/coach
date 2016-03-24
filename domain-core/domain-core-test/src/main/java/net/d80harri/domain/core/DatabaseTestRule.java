@@ -120,7 +120,7 @@ public class DatabaseTestRule implements TestRule {
 			dbInitializer.cleanMigrate();
 			doWithConnection(c -> {
 				try {
-					if (annotation.value() != null && !annotation.value().isEmpty()) {
+					if (annotation.value() != null && !"".equals(annotation.value())) {
 						IDataSet dataSet = new FlatXmlDataSetBuilder()
 								.build(description.getTestClass().getResource(annotation.value()));
 
@@ -130,15 +130,13 @@ public class DatabaseTestRule implements TestRule {
 					throw new RuntimeException(e);
 				}
 			});
-		}
+		} 
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	public static @interface DatabaseSetup {
-		String value()
-
-		default "";
+		String value() default "";
 
 		Operation[] operations() default { Operation.TRUNCATE_TABLE, Operation.INSERT };
 	}
