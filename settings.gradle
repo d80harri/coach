@@ -1,3 +1,3 @@
-include 'domain-core:domain-core-impl', 'domain-core:domain-core-spring', 'domain-core:domain-core-intf', 'domain-core:domain-core-test' 
-include 'domain:domain-impl', 'domain:domain-spring', 'domain:domain-intf', 'domain:domain-test' 
+include 'domain-core:domain-core-impl', 'domain-core:domain-core-spring', 'domain-core:domain-core-intf', 'domain-core:domain-core-test', 'domain-core:domain-core-test-spring' 
+include 'domain:domain-impl', 'domain:domain-spring', 'domain:domain-intf', 'domain:domain-test' , 'domain:domain-test-spring'
 include 'rest:rest-impl', 'rest:rest-spring', 'rest:rest-intf', 'rest:rest-test'

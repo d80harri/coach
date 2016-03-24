@@ -30,7 +30,7 @@ public class DatabaseTestRule implements TestRule {
 	private static final Logger logger = LoggerFactory.getLogger(DatabaseTestRule.class);
 	private final ISessionManager sessionManager;
 	private final IDbInitializer dbInitializer;
-	
+
 	public DatabaseTestRule(ISessionManager manager, IDbInitializer initializer) {
 		this.dbInitializer = initializer;
 		this.sessionManager = manager;
@@ -47,7 +47,8 @@ public class DatabaseTestRule implements TestRule {
 		private final ISessionManager sessionManager;
 		private final IDbInitializer dbInitializer;
 
-		public InitStatement(Statement base, Description description, ISessionManager sessionManager, IDbInitializer dbInitializer) {
+		public InitStatement(Statement base, Description description, ISessionManager sessionManager,
+				IDbInitializer dbInitializer) {
 			this.base = base;
 			this.description = description;
 			this.sessionManager = sessionManager;
@@ -119,10 +120,12 @@ public class DatabaseTestRule implements TestRule {
 			dbInitializer.cleanMigrate();
 			doWithConnection(c -> {
 				try {
-					IDataSet dataSet = new FlatXmlDataSetBuilder()
-							.build(description.getTestClass().getResource(annotation.value()));
+					if (annotation.value() != null && !annotation.value().isEmpty()) {
+						IDataSet dataSet = new FlatXmlDataSetBuilder()
+								.build(description.getTestClass().getResource(annotation.value()));
 
-					DatabaseOperation.INSERT.execute(c, dataSet);
+						DatabaseOperation.INSERT.execute(c, dataSet);
+					}
 				} catch (DatabaseUnitException e) {
 					throw new RuntimeException(e);
 				}
@@ -133,7 +136,9 @@ public class DatabaseTestRule implements TestRule {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	public static @interface DatabaseSetup {
-		String value();
+		String value()
+
+		default "";
 
 		Operation[] operations() default { Operation.TRUNCATE_TABLE, Operation.INSERT };
 	}

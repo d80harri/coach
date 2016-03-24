@@ -16,9 +16,10 @@ import com.jayway.restassured.RestAssured;
 
 import net.d80harri.coach.rest.Application;
 import net.d80harri.domain.core.DatabaseTestRule;
+import net.d80harri.domain.core.DatabaseTestRule.DatabaseSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = Application.class, locations="classpath:rest-it.application-ctx.xml")
 @WebIntegrationTest("server.port:0")
 public class ExerciseControllerIT {
 
@@ -37,6 +38,7 @@ public class ExerciseControllerIT {
 	}
 
 	@Test
+	@DatabaseSetup()
 	public void test() {
 		RestAssured.when().get("/exercises").then().statusCode(HttpStatus.SC_OK).body("data", Matchers.hasSize(0));
 	}

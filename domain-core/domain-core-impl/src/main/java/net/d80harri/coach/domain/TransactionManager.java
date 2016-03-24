@@ -2,15 +2,11 @@ package net.d80harri.coach.domain;
 
 import java.util.Stack;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.d80harri.coach.domain.repository.ISessionManager;
 import net.d80harri.coach.domain.repository.ITransactionHolder;
 import net.d80harri.coach.domain.repository.ITransactionManager;
 
 public class TransactionManager implements ITransactionManager {
-	private Logger logger = LoggerFactory.getLogger(TransactionManager.class);
 	
 	private ISessionManager sessionManager;
 	private ThreadLocal<Stack<TransactionHolder>> transactions = new ThreadLocal<>();
@@ -24,7 +20,6 @@ public class TransactionManager implements ITransactionManager {
 	 */
 	@Override
 	public ITransactionHolder beginOrGet() {
-		logger.debug("Begin transaction");
 		TransactionHolder currentTransaction = getCurrentTransaction();
 		if (currentTransaction == null) {
 			currentTransaction = new TransactionHolder(sessionManager.createTransaction(), this);
@@ -67,7 +62,6 @@ public class TransactionManager implements ITransactionManager {
 			throw new IllegalStateException();
 		}
 		transactionHolder.getTransaction().commit();
-		logger.debug("Transaction commited");
 	}
 
 }
