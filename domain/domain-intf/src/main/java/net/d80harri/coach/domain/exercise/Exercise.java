@@ -1,12 +1,12 @@
 package net.d80harri.coach.domain.exercise;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity(name="Exercise")
-public class Exercise {
-	@Id
-	private String id;
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Exercise extends net.d80harri.coach.domain.repository.Entity{
 	private String name;
 	private String description;
 	
@@ -14,21 +14,15 @@ public class Exercise {
 	}
 	
 	public Exercise(String id) {
-		this.id = id;
+		super(id);
 	}
 	
 	public Exercise(String id, String name, String description) {
-		this.id = id;
+		super(id);
 		this.name = name;
 		this.description = description;
 	}
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+
 	public String getName() {
 		return name;
 	}

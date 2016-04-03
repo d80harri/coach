@@ -29,7 +29,7 @@ public class ExerciseController {
     
     @JsonApiFindAll
     public Iterable<ExerciseDto> findAll(QueryParams requestParams) {
-        return mapper.mapAsList(exerciseRepository.getAll(), ExerciseDto.class);
+        return mapper.mapAsList(exerciseRepository.getAll(Exercise.class), ExerciseDto.class);
     }
     
     @JsonApiSave
@@ -38,6 +38,6 @@ public class ExerciseController {
     		exercise.setId(UUID.randomUUID().toString());
     	}
     	exerciseRepository.saveOrUpdate(mapper.map(exercise, Exercise.class));
-    	return mapper.map(exerciseRepository.getByID(exercise.getId()), ExerciseDto.class);
+    	return exercise;
     }
 }

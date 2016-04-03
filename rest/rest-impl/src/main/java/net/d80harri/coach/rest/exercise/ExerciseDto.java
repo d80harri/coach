@@ -1,14 +1,12 @@
 package net.d80harri.coach.rest.exercise;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.katharsis.resource.annotations.JsonApiId;
 import io.katharsis.resource.annotations.JsonApiResource;
 
 @JsonApiResource(type = "exercises")
-public class ExerciseDto {
+public abstract class ExerciseDto {
 	@JsonApiId
     private String id;
 
@@ -17,6 +15,13 @@ public class ExerciseDto {
     
     @JsonProperty
     private String description;
+    
+    public ExerciseDto() {
+	}
+
+    public ExerciseDto(String name) {
+    	this.name = name;
+    }
     
     public String getId() {
 		return id;

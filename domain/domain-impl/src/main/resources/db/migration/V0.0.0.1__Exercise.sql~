@@ -1,0 +1,23 @@
+create table Public.Entity {
+  id varchar(36) PRIMARY KEY
+};
+
+create table Exercise (
+  id varchar(36) PRIMARY KEY,
+  name varchar(256),
+  description varchar(256),
+
+  FOREIGN KEY (id) REFERENCES Entity(id)
+);
+
+create table AtomicExercise (
+  id varchar(36) PRIMARY KEY,
+
+  FOREIGN KEY (id) REFERENCES Exercise(id)
+);
+
+create table Flow (
+  id varchar(36) PRIMARY KEY,
+
+  FOREIGN KEY (id) REFERENCES Exercise(id)
+);

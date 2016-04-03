@@ -2,5 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 dependencies {
-    compile libaries.'hibernate-core'
+    compile libaries.'hibernate-core';
+    
+    compile project(':domain-core:domain-core-intf');
 }

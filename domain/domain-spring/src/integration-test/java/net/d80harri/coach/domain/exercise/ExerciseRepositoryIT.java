@@ -33,26 +33,26 @@ public class ExerciseRepositoryIT {
 	@DBStateLogging(value="EXERCISE")
 	@ExpectedDatabase(table = "EXERCISE", value = "firstAndSecond.xml")
 	public void testSaveOrUpdate() {
-		target.saveOrUpdate(new Exercise("b9084b88-2267-47ee-9319-610edd22ba97", "First Ex", "First Ex desc"));
-		target.saveOrUpdate(new Exercise("8bdbfa8b-07c0-4798-8ff7-6b69cb222b81", "Second Ex", "Second Ex desc"));
+		target.saveOrUpdate(new AtomicExercise("00000000-0000-0000-0000-000000000001", "First Ex", "First Ex desc"));
+		target.saveOrUpdate(new AtomicExercise("00000000-0000-0000-0000-000000000002", "Second Ex", "Second Ex desc"));
 	}
 
 	@Test
 	@DatabaseSetup(value="firstAndSecond.xml")
 	public void testGetAll() {
-		List<Exercise> result = target.getAll();
+		List<Exercise> result = target.getAll(Exercise.class);
 		assertThat(result).hasSize(2).extracting(e -> e.getId(), e -> e.getName(), e -> e.getDescription())
-				.containsExactly(new Tuple("b9084b88-2267-47ee-9319-610edd22ba97", "First Ex", "First Ex desc"),
-						new Tuple("8bdbfa8b-07c0-4798-8ff7-6b69cb222b81", "Second Ex", "Second Ex desc"));
+				.containsExactly(new Tuple("00000000-0000-0000-0000-000000000001", "First Ex", "First Ex desc"),
+						new Tuple("00000000-0000-0000-0000-000000000002", "Second Ex", "Second Ex desc"));
 	}
 
 	@Test
 	@DatabaseSetup("firstAndSecond.xml")
 	public void testGetById() {
-		Exercise result = target.getByID("b9084b88-2267-47ee-9319-610edd22ba97");
-		DomainAssertions.assertThat(result).isNotNull().hasId("b9084b88-2267-47ee-9319-610edd22ba97")
+		Exercise result = target.getByID(Exercise.class, "00000000-0000-0000-0000-000000000001");
+		DomainAssertions.assertThat(result).isNotNull().hasId("00000000-0000-0000-0000-000000000001")
 				.hasName("First Ex").hasDescription("First Ex desc");
 
-		assertThat(target.getByID("nonExistingId")).isNull();
+		assertThat(target.getByID(Exercise.class, "nonExistingId")).isNull();
 	}
 }

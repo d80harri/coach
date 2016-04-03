@@ -34,7 +34,7 @@ public class ExerciseControllerIT {
 	public void setUp() {
 		// 9
 		RestAssured.port = serverPort;
-		RestAssured.baseURI = "http://localhost";
+		RestAssured.baseURI = "http://localhost/api";
 	}
 
 	@Test

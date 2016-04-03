@@ -10,7 +10,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile 'org.flywaydb:flyway-core:4.0'
+    compile libaries.'flyway'
     compile libaries.'hibernate-core'
 }
 

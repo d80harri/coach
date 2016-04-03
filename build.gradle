@@ -18,7 +18,8 @@ allprojects {
     
     ext {
 		libaries = [
-			'hibernate-core':[group:'org.hibernate', name:'hibernate-core', version:'4.3.11.Final']
+			'hibernate-core':[group:'org.hibernate', name:'hibernate-core', version:'4.3.11.Final'],
+			'flyway':'org.flywaydb:flyway-core:4.0'
 		]
 	}
 }
