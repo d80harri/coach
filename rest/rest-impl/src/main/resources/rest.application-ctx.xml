@@ -10,6 +10,55 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<import resource="classpath:domain.application-ctx.xml"/>
+	<import resource="classpath:domain.application-ctx.xml" />
+	<import resource="classpath:rest.mapper-ctx.xml" />
 
+	<bean name="restCoachMapper" class="net.d80harri.coach.rest.RestCoachMapper" />
+
+	<bean name="defaultRepository" class="net.d80harri.coach.domain.Repository">
+		<constructor-arg ref="sessionManager" />
+		<constructor-arg ref="coachTransactionManager" />
+	</bean>
+
+	<bean class="net.d80harri.coach.rest.exercise.ExerciseController">
+		<constructor-arg ref="defaultRepository" />
+		<constructor-arg ref="restCoachMapper" />
+	</bean>
+
+	<bean name="flowController" class="net.d80harri.coach.rest.exercise.flow.FlowController">
+		<constructor-arg ref="defaultRepository" />
+		<constructor-arg ref="restCoachMapper" />
+	</bean>
+
+	<bean name="atomicExerciseController"
+		class="net.d80harri.coach.rest.exercise.atomic.AtomicExerciseController">
+		<constructor-arg ref="defaultRepository" />
+		<constructor-arg ref="restCoachMapper" />
+	</bean>
+
+	<bean class="net.d80harri.coach.rest.EntityController">
+		<constructor-arg ref="defaultRepository" />
+		<constructor-arg ref="restCoachMapper" />
+	</bean>
+
+	<bean name="flowItemController" class="net.d80harri.coach.rest.exercise.flow.FlowItemController">
+		<constructor-arg ref="defaultRepository" />
+		<constructor-arg ref="restCoachMapper" />
+	</bean>
+
+	<bean class="net.d80harri.coach.rest.exercise.flow.Flow2FlowItemController">
+		<constructor-arg ref="flowController" />
+		<constructor-arg ref="flowItemController"/>
+	</bean>
+
+	<bean class="net.d80harri.coach.rest.exercise.flow.FlowItem2FlowController">
+		<constructor-arg ref="flowItemController"/>
+		<constructor-arg ref="flowController" />
+	</bean>
+	
+	<bean class="net.d80harri.coach.rest.exercise.flow.FlowItem2ExerciseController">
+		<constructor-arg ref="flowItemController"/>
+		<constructor-arg ref="atomicExerciseController" />
+	</bean>
+	
 </beans>

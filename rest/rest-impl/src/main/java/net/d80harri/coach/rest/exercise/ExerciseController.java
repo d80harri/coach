@@ -1,43 +1,13 @@
 package net.d80harri.coach.rest.exercise;
 
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import io.katharsis.queryParams.QueryParams;
-import io.katharsis.repository.annotations.JsonApiFindAll;
-import io.katharsis.repository.annotations.JsonApiResourceRepository;
-import io.katharsis.repository.annotations.JsonApiSave;
 import net.d80harri.coach.domain.exercise.Exercise;
-import net.d80harri.coach.domain.exercise.IExerciseRepository;
+import net.d80harri.coach.domain.repository.IRepository;
+import net.d80harri.coach.rest.DefaultController;
 import net.d80harri.coach.rest.RestCoachMapper;
 
-@JsonApiResourceRepository(ExerciseDto.class)
-@Service
-public class ExerciseController {
 
-	private final IExerciseRepository exerciseRepository;
-	private final RestCoachMapper mapper;
-	
-    @Autowired @Lazy
-    public ExerciseController(IExerciseRepository exerciseRepository, RestCoachMapper mapper) {
-        this.exerciseRepository = exerciseRepository;
-        this.mapper = mapper;
-    }
-    
-    @JsonApiFindAll
-    public Iterable<ExerciseDto> findAll(QueryParams requestParams) {
-        return mapper.mapAsList(exerciseRepository.getAll(Exercise.class), ExerciseDto.class);
-    }
-    
-    @JsonApiSave
-    public ExerciseDto save(ExerciseDto exercise) {
-    	if (exercise.getId() == null) {
-    		exercise.setId(UUID.randomUUID().toString());
-    	}
-    	exerciseRepository.saveOrUpdate(mapper.map(exercise, Exercise.class));
-    	return exercise;
-    }
+public class ExerciseController extends DefaultController<Exercise, ExerciseDto> {
+	public ExerciseController(IRepository<Exercise> repository, RestCoachMapper mapper) {
+		super(Exercise.class, ExerciseDto.class, repository, mapper);
+	}
 }

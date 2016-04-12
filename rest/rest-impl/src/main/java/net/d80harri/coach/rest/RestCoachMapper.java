@@ -12,7 +12,6 @@ import ma.glasnost.orika.Mapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 
-@Component
 public class RestCoachMapper extends ConfigurableMapper implements ApplicationContextAware {
 
 	private MapperFactory factory;

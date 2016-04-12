@@ -1,10 +1,10 @@
 package net.d80harri.coach.rest.exercise;
 
-import net.d80harri.coach.rest.exercise.AtomicExerciseDto;
-import net.d80harri.coach.rest.exercise.FlowDto;
-import net.d80harri.coach.rest.exercise.FlowItemDto;
-import net.d80harri.coach.rest.exercise.Timing;
-import net.d80harri.coach.rest.exercise.TimingUnit;
+import net.d80harri.coach.domain.exercise.Timing;
+import net.d80harri.coach.domain.exercise.TimingUnit;
+import net.d80harri.coach.rest.exercise.atomic.AtomicExerciseDto;
+import net.d80harri.coach.rest.exercise.flow.FlowDto;
+import net.d80harri.coach.rest.exercise.flow.FlowItemDto;
 
 public class FlowDtoTest {
 

@@ -1,0 +1,176 @@
+[
+	{
+		"data": 
+		{
+			"type": "atomic-exercises",
+			"id": "hollow",
+			"attributes": 
+			{
+				"name": "Hollow Body",
+				"description": "Hollow Body description"
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "atomic-exercises",
+			"id": "yogaMoon",
+			"attributes": 
+			{
+				"name": "Yoga moon",
+				"description": "My test torso flow"
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "atomic-exercises",
+			"id": "forwardBend",
+			"attributes": 
+			{
+				"name": "Forward Bend",
+				"description": "My test forward bend"
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "atomic-exercises",
+			"id": "bridge",
+			"attributes": 
+			{
+				"name": "Bridge",
+				"description": "My test bridge"
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "flows",
+			"id": "torso",
+			"attributes": 
+			{
+				"name": "Torso Flow",
+				"description": "My test torso flow"
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "flow.items",
+			"id": "flowitem.hollow",
+			"attributes": {
+				"timing": {
+					"value": 10,
+					"unit": "BREATH"
+				}
+			},
+			"relationships": 
+			{
+				"flow": 
+				{
+					"data": 
+					{
+						"type": "flows",
+						"id": "torso"
+					}
+				},
+				"exercise":{
+					"data":
+					{
+						"type": "atomic-exercise",
+						"id": "hollow"
+					}
+				}
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "flow.items",
+			"id": "flowitem.yogaMoon",
+			"relationships": 
+			{
+				"flow": 
+				{
+					"data": 
+					{
+						"type": "flows",
+						"id": "torso"
+					}
+				},
+				"exercise":{
+					"data":
+					{
+						"type": "atomic-exercise",
+						"id": "yogaMoon"
+					}
+				}
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "flow.items",
+			"id": "flowitem.forwardBend",
+			"relationships": 
+			{
+				"flow": 
+				{
+					"data": 
+					{
+						"type": "flows",
+						"id": "torso"
+					}
+				},
+				"exercise":{
+					"data":
+					{
+						"type": "atomic-exercise",
+						"id": "forwardBend"
+					}
+				}
+			}
+		}
+	},
+
+	{
+		"data": 
+		{
+			"type": "flow.items",
+			"id": "flowitem.bridge",
+			"relationships": 
+			{
+				"flow": 
+				{
+					"data": 
+					{
+						"type": "flows",
+						"id": "torso"
+					}
+				},
+				"exercise":{
+					"data":
+					{
+						"type": "atomic-exercise",
+						"id": "bridge"
+					}
+				}
+			}
+		}
+	}
+]

@@ -7,7 +7,6 @@ import javax.persistence.InheritanceType;
 @javax.persistence.Entity(name="Entity")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Entity {
-	@Id
 	private String id;
 
 	public Entity() {
@@ -17,6 +16,7 @@ public abstract class Entity {
 		this.id = id;
 	}
 
+	@Id
 	public String getId() {
 		return id;
 	}

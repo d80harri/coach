@@ -2,15 +2,12 @@ package net.d80harri.coach.rest.exercise;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.katharsis.resource.annotations.JsonApiId;
 import io.katharsis.resource.annotations.JsonApiResource;
+import net.d80harri.coach.rest.EntityDto;
 
 @JsonApiResource(type = "exercises")
-public abstract class ExerciseDto {
-	@JsonApiId
-    private String id;
-
-    @JsonProperty
+public abstract class ExerciseDto extends EntityDto {
+	@JsonProperty("name")
     private String name;
     
     @JsonProperty
@@ -23,12 +20,6 @@ public abstract class ExerciseDto {
     	this.name = name;
     }
     
-    public String getId() {
-		return id;
-	}
-    public void setId(String id) {
-		this.id = id;
-	}
     public String getName() {
 		return name;
 	}
