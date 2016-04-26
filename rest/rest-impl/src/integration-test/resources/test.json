@@ -67,7 +67,7 @@
 	{
 		"data": 
 		{
-			"type": "flow.items",
+			"type": "flowitems",
 			"id": "flowitem.hollow",
 			"attributes": {
 				"timing": {
@@ -99,7 +99,7 @@
 	{
 		"data": 
 		{
-			"type": "flow.items",
+			"type": "flowitems",
 			"id": "flowitem.yogaMoon",
 			"relationships": 
 			{
@@ -125,7 +125,7 @@
 	{
 		"data": 
 		{
-			"type": "flow.items",
+			"type": "flowitems",
 			"id": "flowitem.forwardBend",
 			"relationships": 
 			{
@@ -151,7 +151,7 @@
 	{
 		"data": 
 		{
-			"type": "flow.items",
+			"type": "flowitems",
 			"id": "flowitem.bridge",
 			"relationships": 
 			{
