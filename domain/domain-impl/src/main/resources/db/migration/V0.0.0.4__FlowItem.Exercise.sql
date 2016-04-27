@@ -36,3 +36,45 @@ WHERE
 
 -- COLLAPSE
 ALTER TABLE FLOWITEM ALTER COLUMN exercise_id SET NOT NULL;
+
+DELETE
+FROM
+    atomicexercise
+WHERE
+    ID = '51fe7b57-719f-4ab8-8586-19620e9913af'
+    AND NOT EXISTS(
+        SELECT
+            *
+        FROM
+            flowitem
+        WHERE
+            exercise_id = '51fe7b57-719f-4ab8-8586-19620e9913af'
+    );
+
+DELETE
+FROM
+    exercise
+WHERE
+    ID = '51fe7b57-719f-4ab8-8586-19620e9913af'
+    AND NOT EXISTS(
+        SELECT
+            *
+        FROM
+            flowitem
+        WHERE
+            exercise_id = '51fe7b57-719f-4ab8-8586-19620e9913af'
+    );
+
+DELETE
+FROM
+    entity
+WHERE
+    ID = '51fe7b57-719f-4ab8-8586-19620e9913af'
+    AND NOT EXISTS(
+        SELECT
+            *
+        FROM
+            flowitem
+        WHERE
+            exercise_id = '51fe7b57-719f-4ab8-8586-19620e9913af'
+    );

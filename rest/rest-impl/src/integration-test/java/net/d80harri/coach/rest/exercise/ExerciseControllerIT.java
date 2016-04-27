@@ -59,8 +59,8 @@ public class ExerciseControllerIT {
 	public void testWriteReadFlow() throws IOException {
 		restSetup.create(ExerciseController.class.getResourceAsStream("/test.json"));
 		RestAssured.when().get("/flows").then().statusCode(HttpStatus.SC_OK).body("data", Matchers.hasSize(1));
-		RestAssured.when().get("/exercises").then().statusCode(HttpStatus.SC_OK).body("data", Matchers.hasSize(6));
-		RestAssured.when().get("/atomic-exercises").then().statusCode(HttpStatus.SC_OK).body("data", Matchers.hasSize(5));
+		RestAssured.when().get("/exercises").then().statusCode(HttpStatus.SC_OK).body("data", Matchers.hasSize(5));
+		RestAssured.when().get("/atomic-exercises").then().statusCode(HttpStatus.SC_OK).body("data", Matchers.hasSize(4));
 	}
 
 }

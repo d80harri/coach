@@ -37,3 +37,4 @@ testdbs
 
 
 /.dbeaver-data-sources.xml
+**/*.orig
